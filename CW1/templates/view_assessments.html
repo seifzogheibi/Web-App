@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class="my-4">Assessments</h1>
+    <h1 class="my-4">{{ title }}</h1>
 
     <!-- Check if there are any assessments to display -->
     {% if assessments %}
@@ -13,13 +13,17 @@
                     <p>Deadline: {{ assessment.deadline }}</p>
                     <p>Description: {{ assessment.description }}</p>
                     <p>Status: {{ 'Complete' if assessment.completed else 'Incomplete' }}</p>
-                    <a href="{{ url_for('views.edit_assessment', id=assessment.id) }}" class="btn btn-warning">Edit Assessment</a>
+                    <a href="{{ url_for('views.edit_assessment', id=assessment.id) }}" class="btn btn-warning">Edit</a>
                     <a href="{{ url_for('views.complete_assessment', id=assessment.id) }}" class="btn btn-success">Mark as Complete</a>
                     <a href="{{ url_for('views.delete_assessment', id=assessment.id) }}" class="btn btn-danger">Delete</a>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>There are currently no assessments!</p>
+    {% if page_type == 'incomplete' %}
+    <p>No incomplete assessments!</p>
+{% else %}
+    <p>No complete assessments.</p>
+{% endif %}
     {% endif %}
 {% endblock %}

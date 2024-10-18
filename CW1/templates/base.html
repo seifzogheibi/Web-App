@@ -17,11 +17,13 @@
     
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="/manage">Manage Assessments</a></li> <!-- Update this link -->
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/manage">Add Assessment</a></li>
+                <li class="nav-item"><a class="nav-link" href="/view_complete">View Complete</a></li> <!-- Add link to complete assessments -->
+                <li class="nav-item"><a class="nav-link" href="/view_incomplete">View Incomplete</a></li> <!-- Add link to incomplete assessments -->
             </ul>
         </div>
-    </nav>    
+    </nav>        
 
     <div class="container">
         {% block content %}{% endblock %}

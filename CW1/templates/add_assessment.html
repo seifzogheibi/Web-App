@@ -3,6 +3,17 @@
 {% block content %}
     <h1 class="my-4">Add New Assessment</h1>
     
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <form method="POST">
         {{ form.hidden_tag() }}  <!-- Include CSRF protection -->
         <div class="form-group">
@@ -15,7 +26,7 @@
         </div>
         <div class="form-group">
             {{ form.deadline.label(class="form-label") }}
-            {{ form.deadline(class="form-control") }}
+            {{ form.deadline(class="form-control", min=today_date) }}
         </div>
         <div class="form-group">
             {{ form.description.label(class="form-label") }}
@@ -25,12 +36,14 @@
             {{ form.completed.label(class="form-label") }}
             {{ form.completed() }}
         </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
+
     {% if assessment %}
         <h2 class="my-4">Assessment Details</h2>
-        <p><strong>Title:</strong> {{ assessment.title }}</p>
+       <p><strong>Title:</strong> {{ assessment.title }}</p>
         <p><strong>Module Code:</strong> {{ assessment.module_code }}</p>
         <p><strong>Deadline:</strong> {{ assessment.deadline }}</p>
         <p><strong>Description:</strong> {{ assessment.description }}</p>

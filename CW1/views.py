@@ -7,11 +7,11 @@ from datetime import datetime
 views_bp = Blueprint('views', __name__)
 
 @views_bp.route('/')
-def index():
+def home():
     assessments = Assessment.query.all()  # Get all assessments
-    return render_template('index.html', assessments=assessments)  # Check if 'index.html' exists in templates
+    return render_template('home.html', assessments=assessments)  # Check if 'index.html' exists in templates
 
-@views_bp.route('/manage', methods=['GET', 'POST'])  # Change route to /manage
+@views_bp.route('/add_assessment', methods=['GET', 'POST'])  # Change route to /manage
 def add_assessment():
     form = AssessmentForm()  # Create an instance of the form
     #assessment = None  # Initialize the assessment variable
@@ -29,15 +29,15 @@ def add_assessment():
         try:
             db.session.add(new_assessment)  # Add the new assessment to the session
             db.session.commit()  # Commit the session to save changes
-            flash('New assessment added successfully!')  # Show success message
-            return redirect(url_for('views.add_assessment'))  # Redirect after successful submission
+            flash('Assessment added.')  # Show success message
+            return redirect(url_for('views.home'))  # Redirect after successful submission
         except Exception as e:
             db.session.rollback()  # Rollback in case of error
             flash(f'Error adding assessment: {e}')
     
     return render_template('add_assessment.html', form=form, today_date=today_date)  # Render the manage template with the form and assessment
 
-@views_bp.route('/edit/<int:id>', methods=['GET', 'POST'])  # Ensure this route exists
+@views_bp.route('/edit_assessment/<int:id>', methods=['GET', 'POST'])  # Ensure this route exists
 def edit_assessment(id):
     assessment = Assessment.query.get_or_404(id)
     form = AssessmentForm(obj=assessment)  # Pre-populate form with current data
@@ -46,28 +46,41 @@ def edit_assessment(id):
         form.populate_obj(assessment)  # Populate the assessment object with form data
         try:
             db.session.commit()
-            flash('Assessment updated successfully!')
-            return redirect(url_for('views.index'))
+            flash('Assessment updated.')
+            return redirect(url_for('views.home'))
         except Exception as e:
             db.session.rollback()
             flash(f'Error updating assessment: {e}')
     
     return render_template('edit.html', form=form)  # Render the edit template with the form
 
-@views_bp.route('/complete/<int:id>')
-def complete_assessment(id):
+@views_bp.route('/complete/<int:id>', methods=['GET', 'POST'])
+def complete_button(id):
     assessment = Assessment.query.get_or_404(id)
     assessment.completed = True  # Mark as complete
     try:
         db.session.commit()
-        flash('Assessment marked as complete!')
+        flash('Assessment completed!')
     except Exception as e:
         db.session.rollback()
         flash(f'Error marking assessment as complete: {e}')
-    
-    return redirect(url_for('views.index'))  # Redirect back to the index page
 
-@views_bp.route('/delete/<int:id>')
+    return redirect(url_for('views.view_complete'))  #
+
+@views_bp.route('/incomplete/<int:id>', methods=['GET', 'POST'])
+def incomplete_button(id):
+    assessment = Assessment.query.get_or_404(id)
+    assessment.completed = False  # Mark as incomplete
+    try:
+        db.session.commit()
+        flash('Assessment incomplete!')  # Flash message for success
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error marking assessment as incomplete: {e}')  # Flash message for error
+
+    return redirect(url_for('views.view_incomplete'))  # Redirect back to the index page
+
+@views_bp.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete_assessment(id):
     assessment = Assessment.query.get_or_404(id)
     try:
@@ -78,16 +91,16 @@ def delete_assessment(id):
         db.session.rollback()
         flash(f'Error deleting assessment: {e}')
     
-    return redirect(url_for('views.index'))  # Redirect back to the index page
+    return redirect(url_for('views.home'))  # Redirect back to the index page
 
 @views_bp.route('/view_complete')
 def view_complete():
     # Fetch assessments that are marked as complete
     complete_assessments = Assessment.query.filter_by(completed=True).all()
-    return render_template('view_assessments.html', assessments=complete_assessments, title="Complete Assessments", page_type='complete')
+    return render_template('complete.html', assessments=complete_assessments)
 
 @views_bp.route('/view_incomplete')
 def view_incomplete():
     # Fetch assessments that are not marked as complete
     incomplete_assessments = Assessment.query.filter_by(completed=False).all()
-    return render_template('view_assessments.html', assessments=incomplete_assessments, title="Incomplete Assessments", page_type='incomplete')
+    return render_template('incomplete.html', assessments=incomplete_assessments)

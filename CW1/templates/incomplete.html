@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="my-4">Incomplete Assessments</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+    <!-- Check if there are any incomplete assessments to display -->
+    {% if assessments %}
+        <ul class="list-group">
+            {% for assessment in assessments %}
+                <li class="list-group-item">
+                    <h4>{{ assessment.title }}</h4>
+                    <p>Module Code: {{ assessment.module_code }}</p>
+                    <p>Deadline: {{ assessment.deadline }}</p>
+                    <p>Description: {{ assessment.description }}</p>
+                    <p>Status: Incomplete</p>
+                    <a href="{{ url_for('views.complete_button', id=assessment.id) }}" class="btn btn-success ">Mark as Complete</a>
+                    <a href="{{ url_for('views.edit_assessment', id=assessment.id) }}" class="btn btn-warning ">Edit Assessment</a>
+                    <a href="{{ url_for('views.delete_assessment', id=assessment.id) }}" class="btn btn-danger">Delete Assessment</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No incomplete assessments found!</p> <!-- Or a suitable message if no incomplete assessments -->
+    {% endif %}
+{% endblock %}

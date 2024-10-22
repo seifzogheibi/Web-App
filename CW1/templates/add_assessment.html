@@ -7,9 +7,11 @@
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
             {% for category, message in messages %}
-                <div class="alert alert-{{ category }}" role="alert">
-                    {{ message }}
-                </div>
+                {% if message == 'Assessment added successfully!' %}
+                    <div class="alert alert-{{ category }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
             {% endfor %}
         {% endif %}
     {% endwith %}
@@ -47,10 +49,9 @@
         <p><strong>Module Code:</strong> {{ assessment.module_code }}</p>
         <p><strong>Deadline:</strong> {{ assessment.deadline }}</p>
         <p><strong>Description:</strong> {{ assessment.description }}</p>
-        <p><strong>Status:</strong> {{ 'Complete' if assessment.completed else 'Incomplete' }}</p>
+        <p><strong>Status:</strong> {{ 'Completed' if assessment.completed else 'Incomplete' }}</p>
 
         <a href="{{ url_for('views.edit_assessment', id=assessment.id) }}" class="btn btn-warning">Edit Assessment</a>
-        <a href="{{ url_for('views.complete_assessment', id=assessment.id) }}" class="btn btn-success">Mark as Complete</a>
-        <a href="{{ url_for('views.index') }}" class="btn btn-primary">Back to Assessments</a>
+        <a href="{{ url_for('views.complete_button', id=assessment.id) }}" class="btn btn-danger">Mark as Complete</a>
     {% endif %}
 {% endblock %}

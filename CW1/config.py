@@ -1,6 +1,9 @@
+WTF_CSRF_ENABLED = True
+SECRET_KEY = 'a-very-secret-secret'
+
 import os
 
-class Config:
-    SECRET_KEY = 'a-very-secret-secret'  # Secret key for session management and CSRF protection
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///assessments.db'  # Database URI
-    SQLALCHEMY_TRACK_MODIFICATIONS = False  # Disable modification tracking
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+SQLALCHEMY_TRACK_MODIFICATIONS = True

@@ -33,7 +33,7 @@
     
                     {% if assessment.completed %}
                     <form action="{{ url_for('incomplete_button', id=assessment.id) }}" method="post" style="display:inline;">
-                        <button type="submit" class="btn" style="background-color: gray;">Mark as Incomplete</button>
+                        <button type="submit" class="btn btn-secondary">Mark as Incomplete</button>
                     </form>
                     {% endif %}
                     

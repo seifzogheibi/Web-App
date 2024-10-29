@@ -12,9 +12,10 @@ def home():
 @app.route('/add_assessment', methods=['GET', 'POST'])
 def add_assessment():
     form = AssessmentForm()
-    today_date = datetime.now()#.strftime('%d-%m-%Y')
+    today_date = datetime.now()  # Keep as current date reference
 
     if form.validate_on_submit():
+        # Check for duplicate assessment
         duplicate_assessment = Assessment.query.filter_by(
             title=form.title.data,
             module_code=form.module_code.data
@@ -23,21 +24,26 @@ def add_assessment():
         if duplicate_assessment:
             flash('This assessment already exists')
         else:
-         new_assessment = Assessment(
-            title=form.title.data,
-            module_code=form.module_code.data,
-            deadline=form.deadline.data,
-            description=form.description.data,
-            completed=form.completed.data
-        )
-        try:
-            db.session.add(new_assessment)
-            db.session.commit()
-            flash('Assessment added.')
-            return redirect(url_for('home'))  # Use direct function name
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error adding assessment: {e}')
+            new_assessment = Assessment(
+                title=form.title.data,
+                module_code=form.module_code.data,
+                deadline=form.deadline.data,
+                description=form.description.data,
+                completed=form.completed.data
+            )
+            try:
+                db.session.add(new_assessment)
+                db.session.commit()
+                flash('Assessment added.')
+                return redirect(url_for('home'))
+            except Exception as e:
+                db.session.rollback()
+                flash(f'Error adding assessment: {e}')
+    
+    # Capture validation error messages if form submission fails
+    for forms, errors in form.errors.items():
+        for error in errors:
+            flash(error)
     
     return render_template('add_assessment.html', form=form, today_date=today_date)
 
@@ -54,7 +60,7 @@ def edit_assessment(id):
         ).first()
 
         if duplicate_assessment:
-            flash('An assessment with this title and module code already exists.', 'error')
+            flash('This assessment already exists')
         
         
         else:
@@ -66,6 +72,11 @@ def edit_assessment(id):
             except Exception as e:
                 db.session.rollback()
                 flash(f'Error updating assessment: {e}')
+
+                # Capture validation error messages if form submission fails
+    for forms, errors in form.errors.items():
+        for error in errors:
+            flash(error)
     
     return render_template('edit.html', form=form)
 

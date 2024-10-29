@@ -14,6 +14,7 @@ def home():
     return render_template('home.html', assessments=assessments)
 
 
+# Adding an assessment page
 @app.route('/add_assessment', methods=['GET', 'POST'])
 def add_assessment():
     form = AssessmentForm()
@@ -56,6 +57,7 @@ def add_assessment():
                            today_date=today_date)
 
 
+# Edit button/page
 @app.route('/edit_assessment/<int:id>', methods=['GET', 'POST'])
 def edit_assessment(id):
     assessment = Assessment.query.get_or_404(id)
@@ -91,6 +93,7 @@ def edit_assessment(id):
     return render_template('edit.html', form=form)
 
 
+# Complete button
 @app.route('/complete/<int:id>', methods=['GET', 'POST'])
 def complete_button(id):
     assessment = Assessment.query.get_or_404(id)
@@ -107,6 +110,7 @@ def complete_button(id):
     return redirect(url_for('view_complete'))
 
 
+# Incomplete button
 @app.route('/incomplete/<int:id>', methods=['GET', 'POST'])
 def incomplete_button(id):
     assessment = Assessment.query.get_or_404(id)
@@ -121,6 +125,7 @@ def incomplete_button(id):
     return redirect(url_for('view_incomplete'))
 
 
+# Delete button
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete_assessment(id):
     assessment = Assessment.query.get_or_404(id)
@@ -135,6 +140,7 @@ def delete_assessment(id):
     return redirect(url_for('home'))
 
 
+# Completed assessments page
 @app.route('/view_complete')
 def view_complete():
     # Filter to only display completed assessments
@@ -142,6 +148,7 @@ def view_complete():
     return render_template('complete.html', assessments=complete_assessments)
 
 
+# Incomplete assessments page
 @app.route('/view_incomplete')
 def view_incomplete():
     # Filter to only display incomplete assessments

@@ -4,18 +4,23 @@ from .forms import AssessmentForm
 from datetime import datetime
 from app import app, db, models
 
+
+# The route for the home page,
+# Ordering the assessments by closest deadline,
+# Passing the data to the home template
 @app.route('/')
 def home():
     assessments = Assessment.query.order_by(Assessment.deadline.asc()).all()
     return render_template('home.html', assessments=assessments)
 
+
 @app.route('/add_assessment', methods=['GET', 'POST'])
 def add_assessment():
     form = AssessmentForm()
-    today_date = datetime.now()  # Keep as current date reference
+    today_date = datetime.now()
 
+# Check that the submitted for is valid and is not a duplicate
     if form.validate_on_submit():
-        # Check for duplicate assessment
         duplicate_assessment = Assessment.query.filter_by(
             title=form.title.data,
             module_code=form.module_code.data
@@ -32,6 +37,8 @@ def add_assessment():
                 completed=form.completed.data
             )
             try:
+                # Adding the assessment to the database
+                # then redirecting back to home
                 db.session.add(new_assessment)
                 db.session.commit()
                 flash('Assessment added.')
@@ -39,50 +46,56 @@ def add_assessment():
             except Exception as e:
                 db.session.rollback()
                 flash(f'Error adding assessment: {e}')
-    
-    # Capture validation error messages if form submission fails
+
+    # Loop through form errors to check if validation fails
     for forms, errors in form.errors.items():
         for error in errors:
             flash(error)
-    
-    return render_template('add_assessment.html', form=form, today_date=today_date)
+
+    return render_template('add_assessment.html', form=form,
+                           today_date=today_date)
+
 
 @app.route('/edit_assessment/<int:id>', methods=['GET', 'POST'])
 def edit_assessment(id):
     assessment = Assessment.query.get_or_404(id)
+    # Keeping the original data in the form when editing
     form = AssessmentForm(obj=assessment)
-    
+
+    # Making sure that duplicates cannot be entered through the edit page
     if form.validate_on_submit():
         duplicate_assessment = Assessment.query.filter(
             Assessment.title == form.title.data,
             Assessment.module_code == form.module_code.data,
-            Assessment.id != id  # Exclude the current assessment from the check
+            Assessment.id != id
         ).first()
 
         if duplicate_assessment:
             flash('This assessment already exists')
-        
-        
+
         else:
+            # Update the data to the new one if successful
             form.populate_obj(assessment)
             try:
                 db.session.commit()
                 flash('Assessment updated.')
-                return redirect(url_for('home'))  # Use direct function name
+                return redirect(url_for('home'))
             except Exception as e:
                 db.session.rollback()
                 flash(f'Error updating assessment: {e}')
 
-                # Capture validation error messages if form submission fails
     for forms, errors in form.errors.items():
         for error in errors:
             flash(error)
-    
+
     return render_template('edit.html', form=form)
+
 
 @app.route('/complete/<int:id>', methods=['GET', 'POST'])
 def complete_button(id):
     assessment = Assessment.query.get_or_404(id)
+    # Using Boolean to set completed assessments to True
+    # and incomplete to False
     assessment.completed = True
     try:
         db.session.commit()
@@ -91,7 +104,8 @@ def complete_button(id):
         db.session.rollback()
         flash(f'Error marking assessment as complete: {e}')
 
-    return redirect(url_for('view_complete'))  # Use direct function name
+    return redirect(url_for('view_complete'))
+
 
 @app.route('/incomplete/<int:id>', methods=['GET', 'POST'])
 def incomplete_button(id):
@@ -104,7 +118,8 @@ def incomplete_button(id):
         db.session.rollback()
         flash(f'Error marking assessment as incomplete: {e}')
 
-    return redirect(url_for('view_incomplete'))  # Use direct function name
+    return redirect(url_for('view_incomplete'))
+
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete_assessment(id):
@@ -116,15 +131,20 @@ def delete_assessment(id):
     except Exception as e:
         db.session.rollback()
         flash(f'Error deleting assessment: {e}')
-    
-    return redirect(url_for('home'))  # Use direct function name
+
+    return redirect(url_for('home'))
+
 
 @app.route('/view_complete')
 def view_complete():
+    # Filter to only display completed assessments
     complete_assessments = Assessment.query.filter_by(completed=True).all()
     return render_template('complete.html', assessments=complete_assessments)
 
+
 @app.route('/view_incomplete')
 def view_incomplete():
+    # Filter to only display incomplete assessments
     incomplete_assessments = Assessment.query.filter_by(completed=False).all()
-    return render_template('incomplete.html', assessments=incomplete_assessments)
+    return render_template('incomplete.html',
+                           assessments=incomplete_assessments)

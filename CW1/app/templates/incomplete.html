@@ -23,9 +23,9 @@
                     <p>Deadline: {{ assessment.deadline }}</p>
                     <p>Description: {{ assessment.description }}</p>
                     <p>Status: Incomplete</p>
-                    <a href="{{ url_for('views.complete_button', id=assessment.id) }}" class="btn btn-success ">Mark as Complete</a>
-                    <a href="{{ url_for('views.edit_assessment', id=assessment.id) }}" class="btn btn-warning ">Edit Assessment</a>
-                    <a href="{{ url_for('views.delete_assessment', id=assessment.id) }}" class="btn btn-danger">Delete Assessment</a>
+                    <a href="{{ url_for('complete_button', id=assessment.id) }}" class="btn btn-success ">Mark as Complete</a>
+                    <a href="{{ url_for('edit_assessment', id=assessment.id) }}" class="btn btn-warning ">Edit Assessment</a>
+                    <a href="{{ url_for('delete_assessment', id=assessment.id) }}" class="btn btn-danger">Delete Assessment</a>
                 </li>
             {% endfor %}
         </ul>

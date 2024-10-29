@@ -24,12 +24,12 @@
                     <p>Description: {{ assessment.description }}</p>
                     <p>Status: Completed</p>
                     <!-- Add a form to mark as incomplete -->
-                    <form action="{{ url_for('views.incomplete_button', id=assessment.id) }}" method="post" style="display:inline;">
+                    <form action="{{ url_for('incomplete_button', id=assessment.id) }}" method="post" style="display:inline;">
                         <button type="submit" class="btn btn-primary" style="background-color: gray;">Mark as Incomplete</button>
                     </form>
 
-                    <a href="{{ url_for('views.edit_assessment', id=assessment.id) }}" class="btn btn-warning">Edit Assessment</a>
-                    <a href="{{ url_for('views.delete_assessment', id=assessment.id) }}" class="btn btn-danger">Delete Assessment</a>
+                    <a href="{{ url_for('edit_assessment', id=assessment.id) }}" class="btn btn-warning">Edit Assessment</a>
+                    <a href="{{ url_for('delete_assessment', id=assessment.id) }}" class="btn btn-danger">Delete Assessment</a>
                 </li>
             {% endfor %}
         </ul>

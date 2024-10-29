@@ -1,5 +1,5 @@
-from app import app, db
+from app import db
+from config import SQLALCHEMY_DATABASE_URI
+import os.path
 
-with app.app_context():
-    db.create_all()
-    print("Database created successfully.")
+db.create_all()

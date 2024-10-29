@@ -20,7 +20,7 @@
                 <li class="list-group-item">
                     <h4>{{ assessment.title }}</h4>
                     <p>Module Code: {{ assessment.module_code }}</p>
-                    <p>Deadline: {{ assessment.deadline }}</p>
+                    <p>Deadline: {{ assessment.deadline.strftime('%d-%m-%Y') }}</p>
                     <p>Description: {{ assessment.description }}</p>
                     <p>Status: Completed</p>
                     <!-- Add a form to mark as incomplete -->

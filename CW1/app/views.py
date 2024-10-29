@@ -47,14 +47,25 @@ def edit_assessment(id):
     form = AssessmentForm(obj=assessment)
     
     if form.validate_on_submit():
-        form.populate_obj(assessment)
-        try:
-            db.session.commit()
-            flash('Assessment updated.')
-            return redirect(url_for('home'))  # Use direct function name
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error updating assessment: {e}')
+        duplicate_assessment = Assessment.query.filter(
+            Assessment.title == form.title.data,
+            Assessment.module_code == form.module_code.data,
+            Assessment.id != id  # Exclude the current assessment from the check
+        ).first()
+
+        if duplicate_assessment:
+            flash('An assessment with this title and module code already exists.', 'error')
+        
+        
+        else:
+            form.populate_obj(assessment)
+            try:
+                db.session.commit()
+                flash('Assessment updated.')
+                return redirect(url_for('home'))  # Use direct function name
+            except Exception as e:
+                db.session.rollback()
+                flash(f'Error updating assessment: {e}')
     
     return render_template('edit.html', form=form)
 

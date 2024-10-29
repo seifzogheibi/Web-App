@@ -1,9 +1,10 @@
+<!-- The template for the homepage -->
+
 {% extends "base.html" %}
 
 {% block content %}
     <h1 class="my-4">All Available Assessments:</h1>
 
-    <!-- Display all flash messages -->
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -14,7 +15,6 @@
         {% endif %}
     {% endwith %}
 
-    <!-- Check if there are any assessments to display -->
     {% if assessments %}
         <ul class="list-group">
             {% for assessment in assessments %}
@@ -25,7 +25,6 @@
                     <p>Description: {{ assessment.description }}</p>
                     <p>Status: {{ 'Completed' if assessment.completed else 'Incomplete' }}</p>
 
-                    <!-- Conditionally display the "Mark as Complete" button -->
                     {% if not assessment.completed %}
                         <form action="{{ url_for('complete_button', id=assessment.id) }}" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-success">Mark as Complete</button>

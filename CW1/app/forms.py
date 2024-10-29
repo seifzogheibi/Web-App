@@ -9,7 +9,6 @@ class AssessmentForm(FlaskForm):
     deadline = DateField('Deadline Date', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     completed = BooleanField('Completed')
-    # submit = SubmitField('Add Assessment')
 
     def validate_deadline(form, field):
         if field.data < date.today():

@@ -6,7 +6,7 @@ from app import app, db, models
 
 @app.route('/')
 def home():
-    assessments = Assessment.query.all()
+    assessments = Assessment.query.order_by(Assessment.deadline.asc()).all()
     return render_template('home.html', assessments=assessments)
 
 @app.route('/add_assessment', methods=['GET', 'POST'])

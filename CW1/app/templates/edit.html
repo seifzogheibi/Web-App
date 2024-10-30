@@ -1,44 +1,39 @@
 <!-- The template for editing an assessment -->
-
 {% extends "base.html" %}
 
-{% block title %}Edit Assessment{% endblock %}
+{% block title %}Edit Assessment{% endblock %} 
 
 {% block content %}
-    <h1>Edit Assessment</h1>
+<h1>Edit Assessment</h1>
 
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}" role="alert">
-                    <p>{{ message }}</p>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-        
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.title.label(class="form-label") }}
-            {{ form.title(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.module_code.label(class="form-label") }}
-            {{ form.module_code(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.deadline.label(class="form-label") }}
-            {{ form.deadline(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.description.label(class="form-label") }}
-            {{ form.description(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.completed.label(class="form-label") }}
-            {{ form.completed() }}
-        </div>
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.title.label(class="form-label") }} {{ form.title(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.module_code.label(class="form-label") }} {{ form.module_code(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.deadline.label(class="form-label") }} {{ form.deadline(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.description.label(class="form-label") }} {{ form.description(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.completed.label(class="form-label") }} {{ form.completed() }}
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
 {% endblock %}

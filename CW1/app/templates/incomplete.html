@@ -1,11 +1,10 @@
 <!-- The template for incomplete assessments -->
-
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class="my-4">Incomplete Assessments</h1>
-    
-    {% with messages = get_flashed_messages(with_categories=True) %}
+<h1 class="my-4">Incomplete Assessments</h1>
+
+{% with messages = get_flashed_messages(with_categories=True) %}
     {% if messages %}
         {% for category, message in messages %}
             <div class="alert alert-{{ category }}" role="alert">
@@ -15,23 +14,24 @@
     {% endif %}
 {% endwith %}
 
-    <!-- Check if there are any incomplete assessments to display -->
-    {% if assessments %}
+{% if assessments %}
+    {% for assessment in assessments %}
         <ul class="list-group">
-            {% for assessment in assessments %}
-                <li class="list-group-item">
-                    <h4>{{ assessment.title }}</h4>
-                    <p>Module Code: {{ assessment.module_code }}</p>
-                    <p>Deadline: {{ assessment.deadline.strftime('%d-%m-%Y') }}</p>
-                    <p>Description: {{ assessment.description }}</p>
-                    <p>Status: Incomplete</p>
-                    <a href="{{ url_for('complete_button', id=assessment.id) }}" class="btn btn-success ">Mark as Complete</a>
-                    <a href="{{ url_for('edit_assessment', id=assessment.id) }}" class="btn btn-warning ">Edit Assessment</a>
-                    <a href="{{ url_for('delete_assessment', id=assessment.id) }}" class="btn btn-danger">Delete Assessment</a>
-                </li>
-            {% endfor %}
+            <li class="list-group-item">
+                <h4>{{ assessment.title }}</h4>
+                <p>Module Code: {{ assessment.module_code }}</p>
+                <p>Deadline: {{ assessment.deadline.strftime('%d-%m-%Y') }}</p>
+                <p>Description: {{ assessment.description }}</p>
+                <p>Status: Incomplete</p>
+                <a href="complete_button" class="btn btn-success">Mark as Complete</a>
+                <a href="edit_assessment" class="btn btn-warning">Edit Assessment</a>
+                <a href="delete_assessment" class="btn btn-danger">Delete Assessment</a>
+            </li>
         </ul>
-    {% else %}
-        <p>No incomplete assessments found!</p> <!-- Or a suitable message if no incomplete assessments -->
-    {% endif %}
+    {% endfor %}
+
+{% else %}
+    <p>No incomplete assessments found!</p>
+{% endif %}
+
 {% endblock %}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!--  current_user.is_authenticated %} -->
+    {% if request.path != '/login' and request.path != '/register' %}
+    <nav class="navbar">
+        <a class="navbar-title" href="#">SafeHub</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <ul class="pages">
+            
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+                <form class="search-form" action="{{ url_for('search') }}" method="GET">
+                    <input type="text" name="query" placeholder="Search users..." class="search-bar">
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+        
+    </nav>
+    {% endif %}
+
+
+        {% block content %}
+
+        {% endblock %}
+
+</body>
+</html>

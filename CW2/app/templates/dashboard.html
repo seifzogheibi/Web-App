@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>Welcome, {{ user.username }}!</h1>
+
+    <!-- Form to Create a New Post -->
+    <div class="create-post-container">
+        <textarea id="post-content" placeholder="What's on your mind?" rows="3"></textarea>
+        <button id="post-button" class="post-button">Post</button>
+    </div>
+
+    <!-- Post Feed -->
+    <div id="post-feed">
+        {% for post in posts %}
+        <div id="post-{{ post.id }}" class="post">
+            <p class="post-author">{{ post.author.username }}</p>
+            <p class="post-timestamp">{{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <p class="post-content">{{ post.content }}</p>
+            <button class="like-button" data-post-id="{{ post.id }}">
+                Like (<span id="like-count-{{ post.id }}">{{ post.like_count }}</span>)
+            </button>
+            <div class="comment-section" id="comments-{{ post.id }}">
+                <!-- Display existing comments -->
+                {% for comment in post.comments %}
+                <div class="comment">
+                    <p class="comment-author">{{ comment.author.username }}</p>
+                    <p class="comment-content">{{ comment.content }}</p>
+                    <p class="comment-timestamp">{{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                </div>
+                {% endfor %}
+                <!-- Input for adding a new comment -->
+                <input type="text" placeholder="Add a comment" />
+                <button class="comment-button" data-post-id="{{ post.id }}">Comment</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

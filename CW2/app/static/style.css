@@ -94,65 +94,76 @@ html {
     top: 0;
     left: 0;
     width: 80px;
-    height: 100%;
-    background-color: #2e2e2e;
+    height: 70%;
+    background-color: black;
+    border: 1px solid #696969;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    padding: 20px;
 }
 
 .navbar-logo {
     font-size: 1.5em;
     font-weight: bold;
-    color: purple;
+    color: whitesmoke;
     text-decoration: none;
     margin-bottom: 30px;
 }
 
-.navbar-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    flex-grow: 1;
-    display: flex;
+.navbar-list { 
     flex-direction: column;
     align-items: center;
+    padding: 20px;
     gap: 20px;
+    display: flex;
+    list-style-type: none;
 }
 
-.nav-button {
+.navbar-buttons {
+    width: 40px; 
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
-    background-color: #444;
     border-radius: 10px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.nav-button img {
+.icons {
     width: 30px;
     height: 30px;
 }
 
-.nav-button:hover {
-    background-color: #007BFF;
-    transform: scale(1.1);
+.navbar-buttons:hover {
+    background-color: slategrey;
+    transition: all ease-in-out 160ms;
 }
 
-.navbar-search {
-    margin-top: auto;
-    width: 90%;
-    text-align: center;
+/* Slide-out Search Bar */
+.search-container {
+    position: relative;
 }
 
-.navbar-search input {
+.search-bar {
+    position: absolute;
+    top: 0;
+    left: 60px; /* Adjust to fit your navbar width */
+    width: 300px;
+    height: auto;
+    background-color: #2e2e2e;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    display: none; /* Hide by default */
+}
+
+.search-container:hover .search-bar {
+    display: block; /* Show on hover */
+}
+
+.search-bar input {
     width: 100%;
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #444;
     border-radius: 5px;
@@ -160,13 +171,13 @@ html {
     color: white;
 }
 
-.navbar-search input::placeholder {
+.search-bar input::placeholder {
     color: #bbb;
 }
 
-.navbar-search button {
+.search-bar button {
     width: 100%;
-    padding: 5px;
+    padding: 10px;
     background-color: #007BFF;
     border: none;
     border-radius: 5px;
@@ -174,9 +185,12 @@ html {
     cursor: pointer;
 }
 
-.navbar-search button:hover {
+.search-bar button:hover {
     background-color: #0056b3;
 }
+
+
+
 
 /* Content Container */
 .content-container {

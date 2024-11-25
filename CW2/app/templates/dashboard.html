@@ -13,32 +13,35 @@
     </div>
 
     <!-- Post Feed -->
-    <div id="post-feed">
+    <div class="post-feed">
         {% for post in posts %}
-        <div id="post-{{ post.id }}" class="post">
-            <p class="post-author">{{ post.author.username }}</p>
-            <p class="post-timestamp">{{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-            <p class="post-content">{{ post.content }}</p>
-            <button class="like-button" data-post-id="{{ post.id }}">
-                Like (<span id="like-count-{{ post.id }}">{{ post.like_count }}</span>)
-            </button>
+        <div class="post">
+            <div class="post-origin">
+                <span class="username">{{ post.author.username }}</span>
+                <span class="date-posted">• {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
+            </div>
+            <div class="post-content">{{ post.content }}</div>
+            <div class="post-actions">
+                <button class="like-button" data-post-id="{{ post.id }}">Like (<span id="like-count-{{ post.id }}">{{ post.like_count }}</span>)</button>
+                <button class="comment-button" data-post-id="{{ post.id }}">Comment</button>
+                {% if post.author.id == user.id %}
+                <button class="delete-post-button" data-post-id="{{ post.id }}">Delete</button>
+                {% endif %}
+            </div>
             <div class="comment-section" id="comments-{{ post.id }}">
-                <!-- Display existing comments -->
                 {% for comment in post.comments %}
                 <div class="comment">
-                    <p class="comment-author">{{ comment.author.username }}</p>
-                    <p class="comment-content">{{ comment.content }}</p>
-                    <p class="comment-timestamp">{{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <span class="comment-author">{{ comment.author.username }}</span>
+                    <span class="comment-content">{{ comment.content }}</span>
+                    {% if comment.user_id == user.id %}
+                    <button class="delete-comment-button" data-comment-id="{{ comment.id }}">Delete</button>
+                    {% endif %}
                 </div>
                 {% endfor %}
-                <!-- Input for adding a new comment -->
-                <input type="text" placeholder="Add a comment" />
-                <button class="comment-button" data-post-id="{{ post.id }}">Comment</button>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
-
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}

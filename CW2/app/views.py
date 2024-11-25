@@ -57,8 +57,8 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
@@ -66,9 +66,9 @@ def register():
         new_user = User(username=username, email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
-        flash('Registration successful. Please log in.')
+        flash('Sign Up successful. Please log in.')
         return redirect(url_for('login'))
-    return render_template('register.html')
+    return render_template('signup.html')
 
 
 @app.route('/logout')
@@ -203,3 +203,35 @@ def unfollow(user_id):
         current_user.following.remove(user_to_unfollow)
         db.session.commit()
     return redirect(url_for('view_profile', user_id=user_id))
+
+
+@app.route('/delete_post/<int:post_id>', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.user_id != current_user.id:
+        return jsonify({"status": "failure", "error": "Unauthorized"}), 403
+
+    # Delete all likes associated with the post
+    Like.query.filter_by(post_id=post_id).delete()
+
+    # Delete all comments associated with the post
+    Comment.query.filter_by(post_id=post_id).delete()
+
+    # Now delete the post
+    db.session.delete(post)
+    db.session.commit()
+
+    return jsonify({"status": "success", "post_id": post_id})
+
+@app.route('/delete_comment/<int:comment_id>', methods=['POST'])
+@login_required
+def delete_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    if comment.user_id != current_user.id:
+        flash("You don't have permission to delete this comment.")
+        return jsonify({"status": "failure", "error": "Unauthorized"}), 403
+
+    db.session.delete(comment)
+    db.session.commit()
+    return jsonify({"status": "success", "comment_id": comment_id})

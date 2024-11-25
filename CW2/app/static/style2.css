@@ -1,0 +1,266 @@
+/* main page */
+
+.dashboard-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+
+.create-post-container {
+    margin-bottom: 20px;
+}
+
+#create-post-container textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #2e2e2e;
+    color: white;
+    border: 1px solid #555;
+    margin-bottom: 10px;
+}
+
+#create-post-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#create-post-container button:hover {
+    background-color: #0056b3;
+}
+
+.post {
+    padding: 15px;
+    background-color: #444;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.post-author {
+    font-weight: bold;
+}
+
+.post-timestamp {
+    font-size: 12px;
+    color: #999;
+}
+
+
+/* Profile Container */
+.profile-container {
+    background-color: rgb(58, 58, 58);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* User Info Section */
+.user-info {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.user-info h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.user-info p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* User Posts Section */
+.user-posts {
+    margin-top: 20px;
+}
+
+.user-posts h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.post {
+    background-color: rgb(45, 45, 45);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.post-timestamp {
+    font-size: 12px;
+    color: gray;
+    margin-bottom: 5px;
+}
+
+.post-content {
+    font-size: 16px;
+    line-height: 1.5em;
+}
+
+
+/* Navbar */
+.navbar {
+    background-color: gray; 
+    position: fixed; /* Sticks to the top */
+    top: 0; /* Align at the very top */
+    left: 0;
+    width: 100%; /* Full-width */
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: flex;
+    justify-content: space-between; /* Space between title and links */
+    z-index: 1000; /* Make sure it’s above all content */
+}
+
+/* Navbar Title */
+.navbar-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333; /* Dark title color */
+}
+
+/* Navbar Links Container */
+.pages {
+    display: flex;
+    list-style: none; /* Remove bullet points from links */
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Links */
+.nav-link {
+    margin-left: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #007BFF;
+    transition: color 0.3s ease;
+}
+
+/* Hover Effect for Links */
+.nav-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Navbar Toggler (Placeholder for Future Use) */
+.navbar-toggler {
+    display: none; /* Hidden by default */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column; /* Stack items vertically */
+        align-items: flex-start; /* Align items to the left */
+    }
+
+    .pages {
+        flex-direction: column; /* Stack links vertically */
+        width: 100%; /* Take up full width */
+    }
+
+    .nav-link {
+        margin: 10px 0; /* Add spacing between vertical links */
+    }
+
+    .navbar-toggler {
+        display: block; /* Show the toggler button */
+    }
+}
+
+.like-button, .comment-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.like-button:hover, .comment-button:hover {
+    background-color: #0056b3;
+}
+
+.comment-input {
+    width: 100%;
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.comment-section {
+    margin-top: 10px;
+}
+
+.comment {
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.search-bar {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+.search-button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.search-results-container {
+    margin: 20px;
+}
+
+.search-results-list {
+    list-style: none;
+    padding: 0;
+}
+
+.search-result-item {
+    margin-bottom: 10px;
+}
+
+.search-result-item a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.search-result-item a:hover {
+    text-decoration: underline;
+}

@@ -116,3 +116,51 @@ document.addEventListener("click", function (event) {
             .catch(error => console.error("Error:", error));
     }
 });
+
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("delete-post-button")) {
+        const postId = event.target.getAttribute("data-post-id");
+
+        fetch(`/delete_post/${postId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status === "success") {
+                    const postElement = document.getElementById(`post-${postId}`);
+                    postElement.remove();
+                } else {
+                    alert(data.error || "Failed to delete post.");
+                }
+            })
+            .catch((error) => console.error("Error deleting post:", error));
+    }
+});
+
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("delete-comment-button")) {
+        const commentId = event.target.getAttribute("data-comment-id");
+
+        fetch(`/delete_comment/${commentId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status === "success") {
+                    const commentElement = document.querySelector(
+                        `.delete-comment-button[data-comment-id="${commentId}"]`
+                    ).parentElement;
+                    commentElement.remove();
+                } else {
+                    alert(data.error || "Failed to delete comment.");
+                }
+            })
+            .catch((error) => console.error("Error deleting comment:", error));
+    }
+});

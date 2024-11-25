@@ -8,27 +8,26 @@
 </head>
 <body>
     <!--  current_user.is_authenticated %} -->
-    {% if request.path != '/login' and request.path != '/register' %}
+    {% if request.path != '/login' and request.path != '/signup' %}
     <nav class="navbar">
-        <a class="navbar-title" href="#">SafeHub</a>
+        <a class="navbar-logo" href="#">SafeHub</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <ul class="pages">
-            
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
-                <form class="search-form" action="{{ url_for('search') }}" method="GET">
-                    <input type="text" name="query" placeholder="Search users..." class="search-bar">
-                    <button type="submit" class="search-button">Search</button>
-                </form>
-        
+        <ul class="navbar-list">
+        <li><a href="{{ url_for('dashboard') }}"class="nav-button home-button"><img src="{{ url_for('static', filename='pics/home-icon.png') }}" alt="Home"></a></li>
+        <li><a href="{{ url_for('profile') }}"class="nav-button profile-button"><img src="{{ url_for('static', filename='pics/profile-icon.png') }}" alt="Profile"></a></li>
+        <li><a href="{{ url_for('logout') }}"class="nav-button logout-button"><img src="https://example.com/home-icon.png" alt="Logout"></a></li>
+    </ul>
+    <div class="navbar-search">
+        <form method="GET" action="{{ url_for('search') }}">
+            <input type="text" placeholder="Search users..." name="query">
+            <button type="submit"><img src="{{ url_for('static', filename='pics/search-icon.png') }}" alt="Search"></button>
+        </form>
+    </div>
     </nav>
     {% endif %}
-
 
         {% block content %}
 

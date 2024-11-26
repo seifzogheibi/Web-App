@@ -109,14 +109,13 @@ def create_post():
         })
     return jsonify({"status": "failure"})
 
-@app.route('/profile')
-@login_required
-def profile():
-    # Query the user's posts
-    user_posts = Post.query.filter_by(user_id=current_user.id).order_by(Post.timestamp.desc()).all()
-    
-    return render_template('profile.html', user=current_user, posts=user_posts)
-
+@app.route('/profile/<username>')
+def profile(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    followers_count = user.followers.count()
+    following_count = user.following.count()
+    posts = Post.query.filter_by(author=user).all()
+    return render_template('profile.html', user=user, followers=followers_count, current_user=current_user, following=following_count, posts=posts)
 
 @app.route('/like', methods=['POST'])
 @login_required

@@ -3,39 +3,44 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<div class="profile-container">
-    <!-- User Info Section -->
-    <div class="profile-info">
-        <h1>{{ user.username }}</h1>
-        <p>Email: {{ user.email }}</p>
-        <p>Followers: {{ user.followers.count() }}</p>
-        <p>Following: {{ user.following.count() }}</p>
-
-        <!-- Follow/Unfollow Button -->
-        {% if user != current_user %}
-        <form id="follow-form" method="post" action="{{ url_for('follow', user_id=user.id) }}">
-            {% if user in current_user.following %}
-            <button type="submit" class="follow-button">Unfollow</button>
-            {% else %}
-            <button type="submit" class="follow-button">Follow</button>
-            {% endif %}
-        </form>
-        {% endif %}
+<!-- Profile Page Content -->
+<div class="profile-page">
+    <!-- Profile Header -->
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-photo">
+                <img src="{{ url_for('static', filename='pics/default-profile.png') }}" alt="Profile Photo">
+            </div>
+            <div class="profile-info">
+                <h2>@{{ user.username }}</h2>
+                <p class="bio">{{ user.bio if user.bio else "No bio available" }}</p>
+                <div class="followers-following">
+                    <span><strong>{{ followers }}</strong> Followers</span>
+                    <span><strong>{{ following }}</strong> Following</span>
+                </div>
+                <button class="follow-button">Follow</button>
+            </div>
+        </div>
     </div>
 
-    <!-- User Posts Section -->
-    <div class="user-posts">
-        <h2>{{ user.username }}'s Posts</h2>
-        {% if posts %}
-            {% for post in posts %}
-            <div class="post">
-                <p class="post-timestamp">{{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-                <p class="post-content">{{ post.content }}</p>
+    <!-- Posts Grid -->
+    <div class="posts-container">
+        {% for post in posts %}
+        <div class="post-item">
+            <p>{{ post.content }}</p>
+            <div class="post-actions">
+                <button class="like-button" data-post-id="{{ post.id }}">Like (<span id="like-count-{{ post.id }}">{{ post.like_count }}</span>)</button>
+                <button class="comment-button" data-post-id="{{ post.id }}">Comment</button>
+                {% if post.author.id == current_user.id %}
+                    <button class="delete-post-button" data-post-id="{{ post.id }}">Delete</button>
+                {% endif %}
             </div>
-            {% endfor %}
-        {% else %}
-            <p>No posts to show yet.</p>
-        {% endif %}
+        </div>
+        {% endfor %}
     </div>
 </div>
+
+
+
+
 {% endblock %}

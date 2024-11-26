@@ -14,28 +14,27 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+    <ul class="navbar-list">
+        <li><a href="/dashboard" class="navbar-buttons"><img src="{{ url_for('static', filename='pics/home-icon.png') }}" class="icons" alt="Home"></a></li>
+        <li><a href="{{ url_for('profile', username=current_user.username) }}" class="navbar-buttons"><img src="{{ url_for('static', filename='pics/profile-icon.png') }}" class="icons" alt="Profile"></a></li>
 
-        <ul class="navbar-list">
-        <li><a href="{{ url_for('dashboard') }}" class="navbar-buttons"><img src="{{ url_for('static', filename='pics/home-icon.png') }}" class="icons" alt="Home"></a></li>
-        <li><a href="{{ url_for('profile') }}" class="navbar-buttons"><img src="{{ url_for('static', filename='pics/profile-icon.png') }}" class="icons" alt="Profile"></a></li>
-        <li><a href="{{ url_for('logout') }}" class="navbar-buttons"><img src="https://example.com/home-icon.png" class="icons" alt="Logout"></a></li>
-        <!-- <li><a href="{{ url_for('logout') }}" class="navbar-buttons"><img src="https://example.com/home-icon.png" class="icons" alt="Search"></a></li> -->
-        <li class="search-container">
-            <a class="navbar-buttons"><img src="{{ url_for('static', filename='pics/search-icon.png') }}" class="icons" alt="Search"></a>
+    <!-- Search Section -->
+     <li>
+    <div class="search-container">
+        <form method="GET" action="/search">
             <div class="search-bar">
-                <form method="GET" action="{{ url_for('search') }}">
-                    <input type="text" placeholder="Search users..." name="query">
-                    <button type="submit">Search</button>
-                </form>
+                <input type="text" placeholder="Search" name="query">
+                <button type="submit" class="navbar-buttons" ><img src="{{ url_for('static', filename='pics/search-icon.png') }}" class="icons" alt="Search"></button>
             </div>
-        <!-- <li class="navbar-search">
-            <form method="GET" action="{{ url_for('search') }}">
-                <input type="text" placeholder="Search users..." name="query">
-                <button type="submit"><img src="{{ url_for('static', filename='pics/search-icon.png') }}" alt="Search"></button>
-            </form>
-        </li> -->
-    </ul>
+        </form>
+    </div>
+    </li>
+     </ul>
+
+    <a href="/logout" class="logout-button"><img src="{{ url_for('static', filename='pics/logout-icon.png') }}" class="icons" alt="Logout"></a>
+   
 </nav>
+
     {% endif %}
 
         {% block content %}

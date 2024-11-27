@@ -86,28 +86,28 @@ def dashboard():
     own_posts = Post.query.filter_by(user_id=current_user.id)
     posts = followed_posts.union(own_posts).order_by(Post.timestamp.desc()).all()
 
-    # Add a count of likes for each post
+    # Add a count of likes for each post and whether the user has liked the post
     for post in posts:
         post.like_count = post.likes.count()
+        post.is_liked = Like.query.filter_by(user_id=current_user.id, post_id=post.id).first() is not None
+
     return render_template('dashboard.html', user=current_user, posts=posts)
+
 
 
 @app.route('/create_post', methods=['POST'])
 @login_required
 def create_post():
-    data = request.get_json()
-    content = data.get('content')
-    if content:
+    content = request.form.get('content')
+    if content.strip():
         new_post = Post(content=content, user_id=current_user.id)
         db.session.add(new_post)
         db.session.commit()
-        return jsonify({
-            "status": "success",
-            "content": content,
-            "author": current_user.username,
-            "timestamp": new_post.timestamp.strftime("%Y-%m-%d %H:%M:%S")
-        })
-    return jsonify({"status": "failure"})
+        flash("Post created successfully.")
+    else:
+        flash("Post content cannot be empty.")
+    return redirect(url_for('dashboard'))
+
 
 @app.route('/profile/<username>')
 def profile(username):
@@ -115,52 +115,46 @@ def profile(username):
     followers_count = user.followers.count()
     following_count = user.following.count()
     posts = Post.query.filter_by(author=user).all()
-    return render_template('profile.html', user=user, followers=followers_count, current_user=current_user, following=following_count, posts=posts)
 
-@app.route('/like', methods=['POST'])
+    is_current_user = user.id == current_user.id
+
+    # Add like count and check if the current user liked each post
+    for post in posts:
+        post.like_count = post.likes.count()
+        post.is_liked = current_user in [like.user for like in post.likes]
+
+    return render_template('profile.html', user=user, followers=followers_count, current_user=current_user, following=following_count, posts=posts, is_current_user=is_current_user)
+
+
+@app.route('/like/<int:post_id>', methods=['POST'])
 @login_required
-def like():
-    data = request.get_json()
-    post_id = data.get('post_id')
-
-    # Check if the user already liked the post
+def like(post_id):
+    post = Post.query.get_or_404(post_id)
     existing_like = Like.query.filter_by(user_id=current_user.id, post_id=post_id).first()
     if existing_like:
-        db.session.delete(existing_like)  # Unlike if already liked
+        db.session.delete(existing_like)  # Unlike
         db.session.commit()
-        return jsonify({"status": "unliked", "post_id": post_id})
+        return jsonify({"status": "unliked", "like_count": post.likes.count(), "post_id": post_id})
+    else:
+        new_like = Like(user_id=current_user.id, post_id=post_id)
+        db.session.add(new_like)
+        db.session.commit()
+        return jsonify({"status": "liked", "like_count": post.likes.count(), "post_id": post_id})
 
-    # Add new like
-    new_like = Like(user_id=current_user.id, post_id=post_id)
-    db.session.add(new_like)
-    db.session.commit()
-    return jsonify({"status": "liked", "post_id": post_id})
 
-
-@app.route('/comment', methods=['POST'])
+@app.route('/comment/<int:post_id>', methods=['POST'])
 @login_required
-def comment():
-    data = request.get_json()
-    post_id = data.get('post_id')
-    content = data.get('content')
+def comment(post_id):
+    content = request.form.get('content')
+    if content.strip():
+        new_comment = Comment(content=content, user_id=current_user.id, post_id=post_id)
+        db.session.add(new_comment)
+        db.session.commit()
+        flash("Comment added successfully.")
+    else:
+        flash("Comment cannot be empty.")
+    return redirect(url_for('dashboard'))
 
-    if not content.strip():
-        return jsonify({"status": "failure", "error": "Comment cannot be empty."})
-
-    # Add new comment
-    new_comment = Comment(content=content, user_id=current_user.id, post_id=post_id)
-    db.session.add(new_comment)
-    db.session.commit()
-
-    return jsonify({
-        "status": "success",
-        "post_id": post_id,
-        "comment": {
-            "author": current_user.username,
-            "content": content,
-            "timestamp": new_comment.timestamp.strftime("%Y-%m-%d %H:%M:%S")
-        }
-    })
 
 @app.route('/search', methods=['GET'])
 @login_required
@@ -191,7 +185,10 @@ def follow(user_id):
     if user_to_follow != current_user and user_to_follow not in current_user.following:
         current_user.following.append(user_to_follow)
         db.session.commit()
-    return redirect(url_for('view_profile', user_id=user_id))
+        flash(f"You are now following {user_to_follow.username}.")
+    else:
+        flash("You are already following this user.")
+    return redirect(url_for('profile', username=user_to_follow.username))
 
 
 @app.route('/unfollow/<int:user_id>', methods=['POST'])
@@ -201,7 +198,11 @@ def unfollow(user_id):
     if user_to_unfollow in current_user.following:
         current_user.following.remove(user_to_unfollow)
         db.session.commit()
-    return redirect(url_for('view_profile', user_id=user_id))
+        flash(f"You unfollowed {user_to_unfollow.username}.")
+    else:
+        flash("You are not following this user.")
+    return redirect(url_for('profile', username=user_to_unfollow.username))
+
 
 
 @app.route('/delete_post/<int:post_id>', methods=['POST'])
@@ -211,16 +212,12 @@ def delete_post(post_id):
     if post.user_id != current_user.id:
         return jsonify({"status": "failure", "error": "Unauthorized"}), 403
 
-    # Delete all likes associated with the post
+    # Delete associated likes and comments
     Like.query.filter_by(post_id=post_id).delete()
-
-    # Delete all comments associated with the post
     Comment.query.filter_by(post_id=post_id).delete()
 
-    # Now delete the post
     db.session.delete(post)
     db.session.commit()
-
     return jsonify({"status": "success", "post_id": post_id})
 
 @app.route('/delete_comment/<int:comment_id>', methods=['POST'])

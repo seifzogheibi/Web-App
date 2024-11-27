@@ -57,7 +57,7 @@
 
 /* Profile Container */
 .profile-container {
-    background-color: rgb(58, 58, 58);
+    /* background-color: black; */
     color: white;
     padding: 30px;
     border-radius: 15px;
@@ -164,25 +164,25 @@
 }
 
 /* Responsive Design for Small Screens */
-@media (max-width: 600px) {
+/* @media (max-width: 600px) { 
     .navbar {
-        flex-direction: column; /* Stack items vertically */
-        align-items: flex-start; /* Align items to the left */
+        flex-direction: column; /* Stack items vertically 
+        align-items: flex-start; /* Align items to the left 
     }
 
     .pages {
-        flex-direction: column; /* Stack links vertically */
-        width: 100%; /* Take up full width */
+        flex-direction: column; /* Stack links vertically *
+        width: 100%; /* Take up full width *
     }
 
     .nav-link {
-        margin: 10px 0; /* Add spacing between vertical links */
+        margin: 10px 0; /* Add spacing between vertical links *
     }
 
     .navbar-toggler {
-        display: block; /* Show the toggler button */
+        display: block; /* Show the toggler button *
     }
-}
+} */
 
 .like-button, .comment-button {
     background-color: #007BFF;

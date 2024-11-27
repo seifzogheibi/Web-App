@@ -7,33 +7,35 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
 }
   
 html {
     scroll-behavior: smooth;
   }
 
-/* Login Page */
 
-.authorization-form {
+
+
+
+/* LOGIN/SIGNUP PAGE */
+.authorization-container {
     width: 35%;
     margin-top: 15%;
     padding: 20px;
     background-color: rgb(74, 74, 74);
-    border-radius: 10px;
+    border-radius: 20px;
     text-align: center;
 }
 
 .title {
-    font-size: 3em; /* Larger and more noticeable */
-    font-weight: bold; /* Emphasize the brand name */
-    margin-bottom: 30px; /* Add space below the header */
+    color: rgb(239, 239, 239);
+    font-size: 3em; 
+    font-weight: bold;
+    margin-bottom: 30px;
 }
 
-.email-box,
-.password-box,
-.username-box,
-.confirm-password-box {
+.form-box {
     width: 80%;
     padding: 10px;
     margin: 10px 0;
@@ -66,7 +68,7 @@ html {
 }
 
 .text1 {
-    font-size: 25px;
+    font-size: 1.7em;
     color: gainsboro;
     text-align: center;
     margin-bottom: 20px;
@@ -78,9 +80,10 @@ html {
 }
 
 
-/* main page */
 
-/* Navbar Styles */
+
+
+/* NAVBAR */
 .navbar {
     position: fixed;
     top: 0;
@@ -98,13 +101,12 @@ html {
 .navbar-logo {
     font-size: 1.5em;
     font-weight: bold;
-    color: whitesmoke;
+    color: snow;
     text-decoration: none;
     margin-bottom: 30px;
 }
 
-.navbar-list { 
-    flex-grow: 1;
+.navbar-list {
     flex-direction: column;
     align-items: center;
     padding: 20px;
@@ -113,133 +115,92 @@ html {
     list-style-type: none;
 }
 
-.navbar-buttons {
-    width: 40px; 
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.icons {
-    width: 30px;
-    height: 30px;
-    background-color: black;
-}
-
-.navbar-buttons:hover {
-    background-color: slategrey;
-    transition: all ease-in-out 160ms;
-}
-
 .logout-button {
-    margin-top: auto; /* Pushes the logout button to the bottom */
+    margin-top: auto;
 }
 
-/* Slide-out Search Bar */
-/* Search Bar */
 .search-container {
-    width: 50px;
-    overflow: hidden;
-    transition: width 0.3s ease; /* Smooth slide-out effect */
-}
-
-.search-container:focus-within {
-    width: 100px; /* Expands when focused */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
-.search-bar input {
-    padding: 5px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    background-color: #333;
-    color: white;
-    font-size: 1em;
-    transition: all 0.3s ease; /* Smooth transition for input expansion */
+
+
+
+/* CREATE A POST */
+.create-post-container {
+    background-color: #444;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    padding: 15px;
 }
 
-.search-bar input::placeholder {
-    color: #bbb;
+.create-post-form {
+    display: flex;
+    gap: 10px;
+    background-color: red;
 }
 
 
-/* Content Container */
-.content-container {
-    margin-left: 80px;
-    padding: 20px;
-    position: relative;
-}
 
-/* Dashboard Container */
-.dashboard-container {
-    padding: 20px;
-}
 
-.post {
-    background-color: #3a3a3a;
-    color: white;
+
+/* POSTS GRID */
+.post-container {
+    background-color: #444;
+    color: white; 
     margin-bottom: 20px;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .post-author {
-    font-weight: bold;
-    color: #d1d1d1;
+    font-size: 1.2em;
+font-weight: bold;
+color: snow;
 }
 
-.post-timestamp {
-    font-size: 0.9em;
-    color: #aaa;
-    margin-top: 5px;
+.post-time {
+    font-size: 0.8em;
+    color: snow;
 }
 
 .post-content {
-    font-size: 1.2em;
-    margin: 15px 0;
+    font-size: 1.5em;
+    margin-top: 10px;
 }
 
-.like-button,
-.comment-button,
-.delete-post-button {
-    background-color: #444;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    padding: 10px 15px;
-    margin-right: 10px;
-    cursor: pointer;
-    font-size: 0.9em;
-}
-
-.like-button:hover,
-.comment-button:hover,
-.delete-post-button:hover {
-    background-color: #007BFF;
-}
-
-
-/* Profile */
-
-/* Profile Page Styles */
-/* Profile Container */
-/* Profile Container */
-/* Profile Page Wrapper */
-/* Profile Page Wrapper */
-/* Profile Page Wrapper */
-.profile-page {
-    margin-left: 100px; /* Leave space for navbar */
+.post-actions {
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    min-height: 100vh; /* Ensure the page fills the entire viewport height */
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+    background-color: blueviolet;
+}
+
+.comment-section {
+    padding-top: 10px;
+    border-top: 1px solid #555;
+}
+
+.comment {
+    margin-bottom: 10px;
+}
+
+
+
+
+
+/* PROFILE */
+.profile-page {
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     box-sizing: border-box;
 }
 
-/* Profile Container */
 .profile-container {
     background-color: #2e2e2e;
     padding: 20px;
@@ -248,42 +209,17 @@ html {
     margin-bottom: 20px;
 }
 
-/* Posts Container */
-.posts-container {
-    width: 200%; /* Make the posts-container grow to fill available space */
-    /* margin: 0 auto; */
-    /* margin-right: 400px; */
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
-    gap: 15px;
-    padding: 20px;
-    background-color: red; /* For debugging, shows the container area */
-}
-
-
 .profile-header {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.profile-photo img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #007BFF;
-}
 
-.profile-info h2 {
-    margin: 0;
-    font-size: 1.5em;
-}
-
-.profile-info .bio {
+/* .profile-info, .bio {
     color: #ccc;
     margin: 10px 0;
-}
+} */
 
 .followers-following {
     display: flex;
@@ -302,49 +238,4 @@ html {
 
 .follow-button:hover {
     background-color: #0056b3;
-}
-
-/* Posts Container */
-
-
-
-.posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Grid with responsive columns */
-    gap: 15px;
-    width: 100%;
-}
-
-.post-item {
-    background-color: #444;
-    border-radius: 5px;
-    padding: 20px;
-    color: white;
-    text-align: center;
-    height: 200px; /* Ensure consistent height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.post-actions {
-    display: flex;  /* Align buttons in a row */
-    justify-content: flex-start;  /* Align buttons to the left */
-    gap: 0px;  /* Add spacing between buttons */
-    margin-top: 10px;  /* Add space between actions and post content */
-    background-color: purple;
-}
-
-.post-actions button {
-    background-color: #444;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 0.9em;
-}
-
-.post-actions button:hover {
-    background-color: #007BFF;
 }

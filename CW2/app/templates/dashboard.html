@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="content-container">
-    <h1>Welcome, {{ user.username }}!</h1>
+    <h1 class="page-header">Welcome, @{{ user.username }}!</h1>
 
     <!-- Form to Create a New Post -->
     <div class="create-post-container">
@@ -14,59 +14,61 @@
         </form>
     </div>
 
-    <!-- Post Feed -->
+    <!-- Posts Section -->
+    <div class="dashboard-posts">
         {% for post in posts %}
-            <div class="post-container">
-                        <span class="post-author">@{{ post.author.username }}</span>
-                        <span class="post-time"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
-                <div class="post-content">
-                    {{ post.content }}
-                </div>
-                <div class="post-actions">
-                    <!-- Like Button -->
-                    <form method="POST" action="{{ url_for('like', post_id=post.id) }}">
-                        <button type="submit" class="btn btn-outline-danger">
-                            <i class="bi bi-heart"></i>
-                            {% if post.is_liked %} 
-                                ({{ post.like_count }})
-                            {% else %}
-                                ({{ post.like_count }})
-                            {% endif %}
-                        </button>
-                    </form>
-
-                    <!-- Comment Button -->
-                    <form method="POST" action="{{ url_for('comment', post_id=post.id) }}">
-                        <button type="button" class="btn btn-outline-primary">
-                            <i class="bi bi-chat-dots"></i>
-                        </button>
-                    </form>
-
-                    <!-- Delete Button -->
-                    {% if post.author.id == current_user.id %}
-                    <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}">
-                        <button type="submit" class="btn btn-outline-dark">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </form>
-                    {% endif %}
-                </div>
-                <!-- Comment Section -->
-                <div class="comment-section">
-                    {% for comment in post.comments %}
-                    <div class="comment">
-                        <span>{{ comment.author.username }}:</span>
-                        <span>{{ comment.content }}</span>
-                        <!-- Delete Comment Button -->
-                        {% if comment.user_id == current_user.id %}
-                        <form method="POST" action="{{ url_for('delete_comment', comment_id=comment.id) }}">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                </div>
+        <div class="dashboard-posts-cards">
+            <!-- Post Header -->
+            <div class="post-header">
+                <span class="post-author">@{{ post.author.username }}</span>
+                <span class="post-time"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
             </div>
+
+            <!-- Post Content -->
+            <div class="post-content">
+                {{ post.content }}
+            </div>
+
+            <!-- Post Actions -->
+            <div class="post-actions">
+                <!-- Like Button -->
+                <button type="button" class="btn btn-outline-danger like-button" data-post-id="{{ post.id }}">
+                    <i class="bi {% if post.is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                    ({{ post.like_count }})
+                </button>
+
+                <!-- Comment Button -->
+                <button type="button" class="btn btn-outline-primary toggle-comment-button">
+                    <i class="bi bi-chat-dots"></i> Comment
+                </button>
+
+                <!-- Delete Button -->
+                {% if post.author.id == current_user.id %}
+                <button type="button" class="btn btn-outline-dark delete-post-button" data-post-id="{{ post.id }}">
+                    <i class="bi bi-trash"></i>
+                </button>
+                {% endif %}
+            </div>
+
+            <!-- Comment Form -->
+            <div class="comment-form-container hidden">
+                <form method="POST" action="{{ url_for('comment', post_id=post.id) }}">
+                    <textarea name="content" placeholder="Write a comment..." rows="2"></textarea>
+                    <button type="submit" class="btn btn-primary">Post Comment</button>
+                </form>
+            </div>
+
+            <!-- Display Comments -->
+            <div class="comment-section">
+                {% for comment in post.comments %}
+                <div class="comment">
+                    <span class="comment-author">@{{ comment.author.username }}</span>: 
+                    <span class="comment-content">{{ comment.content }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
         {% endfor %}
+    </div>
 </div>
 {% endblock %}

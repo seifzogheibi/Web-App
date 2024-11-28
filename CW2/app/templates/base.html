@@ -6,29 +6,30 @@
     <title>{% block title %}My App{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=League+Script&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!--  current_user.is_authenticated %} -->
     {% if request.path != '/login' and request.path != '/signup' %}
     <nav class="navbar">
         <a class="navbar-logo" href="{{ url_for('dashboard') }}">SeifClub</a>
     <ul class="navbar-list">
-        <li><a href="/dashboard"><i class="bi bi-house-door-fill"></i></a></li>
-        <li><a href="{{ url_for('profile', username=current_user.username) }}" class="navbar-buttons"><i class="bi bi-person"></i></li>
+        <li><a href="/dashboard"><i class="nav-buttons bi-house-door-fill"></i></a></li>
+        <li><a href="{{ url_for('profile', username=current_user.username) }}"><i class="nav-buttons bi-person"></i></a></li>
 
     <!-- Search Section NO CSS -->
-     <li>
+    <li>
         <div class="search-container">
             <form method="GET" action="/search">
-                <input type="text" placeholder="Search" name="query">
-                <button type="submit"><i class="bi bi-search"></i></button>
+                <input type="text" placeholder="Search" name="query" class="search-input">
+                <button type="submit" class="search-button"><i class="bi bi-search"></i></button>
             </form>
         </div>
     </li>
 </ul>
 
-    <a href="/logout" class="logout-button"><i class="bi bi-box-arrow-left"></i></a>
+    <a href="/logout" class="logout-button"><i class="logout-button bi-box-arrow-left"></i></a>
    
 </nav>
 
@@ -37,6 +38,6 @@
         {% block content %}
 
         {% endblock %}
-
+        <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 </html>

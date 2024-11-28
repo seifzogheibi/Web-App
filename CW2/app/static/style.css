@@ -1,7 +1,7 @@
 body {
     background-color: black;
     color: white;
-    margin: auto;
+    margin-left: auto;
     padding: auto;
     font-family: Arial, sans-serif;
     display: flex;
@@ -21,7 +21,7 @@ html {
 /* LOGIN/SIGNUP PAGE */
 .authorization-container {
     width: 35%;
-    margin-top: 15%;
+    margin-top: 200px;
     padding: 20px;
     background-color: rgb(74, 74, 74);
     border-radius: 20px;
@@ -29,9 +29,10 @@ html {
 }
 
 .title {
-    color: rgb(239, 239, 239);
-    font-size: 3em; 
+    color: rgb(219, 0, 197);
+    font-size: 5em; 
     font-weight: bold;
+    font-family: "League Script", cursive;
     margin-bottom: 30px;
 }
 
@@ -71,7 +72,6 @@ html {
     font-size: 1.7em;
     color: gainsboro;
     text-align: center;
-    margin-bottom: 20px;
 }
 
 .text2 {
@@ -80,15 +80,23 @@ html {
 }
 
 
-
-
+.content-container {
+    margin-left: 15%; /* Matches the width of the navbar */
+    padding: 20px;
+    position: relative;
+    background-color: burlywood;
+    width: 60%;
+    /* justify-content: center;
+    flex-direction: column; 
+    align-items: center; */
+}
 
 /* NAVBAR */
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 5%;
+    width: 10%;
     height: 95%;
     background-color: black;
     border-right: 1px solid #696969;
@@ -99,30 +107,79 @@ html {
 }
 
 .navbar-logo {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: snow;
+    font-size: 1.9em;
+    font-family: "League Script", cursive;
+    color: rgb(219, 0, 197);
     text-decoration: none;
+    margin-top: 30px;
     margin-bottom: 30px;
+    padding: 8px;
+    border-radius: 20px;
+    border: solid 2px purple;
 }
 
 .navbar-list {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    gap: 20px;
+    gap: 70px;
     display: flex;
     list-style-type: none;
 }
 
+.nav-buttons {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 200px;
+}
+
+.nav-buttons:hover {
+    color: pink;
+    transition: color 0.3s ease;
+}
+
 .logout-button {
     margin-top: auto;
+    color: white;
+    font-size: 30px;
+}
+
+.logout-button:hover {
+    color: pink;
+    transition: color 0.3s ease;
 }
 
 .search-container {
-    margin-left: auto;
-    margin-right: auto;
-}
+    position: relative;
+  }
+  
+  .search-form {
+    display: none; /* Hidden by default */
+    position: absolute;
+    left: 50px;
+    top: 0;
+    background: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-container.active .search-form {
+    display: block; /* Show when active */
+  }
+  
+  .search-icon {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  
+  
+  
+  
 
 
 
@@ -132,8 +189,10 @@ html {
 .create-post-container {
     background-color: #444;
     margin-bottom: 20px;
+    margin-left: 38%;
     border-radius: 8px;
     padding: 15px;
+    width: 20%;
 }
 
 .create-post-form {
@@ -142,33 +201,92 @@ html {
     background-color: red;
 }
 
+.page-header {
+    font-size: 3.3em;
+    color: white;
+    margin-left: 34%;
+    font-family: "League Script", cursive;
+
+}
+
 
 
 
 
 /* POSTS GRID */
-.post-container {
-    background-color: #444;
-    color: white; 
-    margin-bottom: 20px;
-    padding: 15px;
-    border-radius: 8px;
+
+/* Grid Container */
+.posts-grid {
+    background-color: pink;
+    border-radius: 20px;
+    padding: 20px; /* Add padding inside the grid */
+    display: grid; /* Use grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid columns */
+    gap: 20px; /* Add space between grid items */
+    box-sizing: border-box; /* Include padding in width/height */
 }
+
+/* Card Styles */
+.post-cards {
+    background-color: green;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    height: 200px; /* Ensure cards are the same height */
+    display: flex; /* Flexbox for layout */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: space-between; /* Distribute space between content */
+    padding: 15px; /* Add padding inside the card */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.post-header {
+    display: flex; /* Use flexbox to align items in a row */
+   /* justify-content: space-between;  Place author on the left and date on the right */
+    align-items: center; /* Vertically align items */
+    font-size: 1em; /* Adjust font size */
+    color: white; /* Set text color to whte */
+}
+
+.dashboard-posts {
+    display: flex; /* Flexbox for stacking posts in a column */
+    flex-direction: column; /* Stack posts vertically */
+    gap: 20px; /* Space between each card */
+    width: 100%; /* Take the full width of the container */
+    margin: 0 auto; /* Center the posts container */
+}
+
+.dashboard-posts-cards {
+    background-color: green; /* Card background color */
+    color: white; /* Text color */
+    padding: 20px; /* Space inside the card */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a shadow for depth */
+    max-width: 800px; /* Limit the width for a cleaner look */
+    width: 100%; /* Ensure it adjusts to the container width */
+    margin: 0 auto; /* Center the card */
+}
+
 
 .post-author {
     font-size: 1.2em;
-font-weight: bold;
-color: snow;
+    font-weight: bold;
+    color: snow;
 }
 
 .post-time {
     font-size: 0.8em;
     color: snow;
+    margin-top: 6px;
+    margin-left: 10px;
 }
 
 .post-content {
-    font-size: 1.5em;
-    margin-top: 10px;
+    flex-grow: 1; /* Allow the content to take up available space */
+    overflow-y: auto; /* Add a vertical scrollbar for overflow content */
+    word-wrap: break-word; /* Ensure long words break onto the next line */
+    max-height: calc(100% - 50px); /* Ensure content stays within the box */
+    padding-right: 10px;
+    margin-top: 20px;
 }
 
 .post-actions {
@@ -238,4 +356,36 @@ color: snow;
 
 .follow-button:hover {
     background-color: #0056b3;
+}
+
+
+/* Comment form container */
+.comment-form-container {
+    margin-top: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hidden class to hide the form initially */
+.hidden {
+    display: none;
+}
+
+/* Comment textarea */
+.comment-form-container textarea {
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px;
+    resize: none;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+/* Submit button */
+.comment-form-container .btn {
+    align-self: flex-end; /* Align button to the right */
 }

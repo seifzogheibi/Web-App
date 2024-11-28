@@ -1,46 +1,16 @@
-console.log("dashboard.js loaded");
-
-
-// document.getElementById("post-button").addEventListener("click", function () {
-//     const content = document.getElementById("post-content").value;
-//     if (!content.trim()) {
-//         alert("Post content cannot be empty!");
-//         return;
-//     }
-
-//     fetch("/create_post", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ content: content }),
-//     })
-//         .then((response) => response.json())
-//         .then((data) => {
-//             if (data.status === "success") {
-//                 const postFeed = document.getElementById("post-feed");
-//                 const newPost = document.createElement("div");
-//                 newPost.classList.add("post");
-//                 newPost.innerHTML = `
-//                     <p class="post-author">${data.author}</p>
-//                     <p class="post-timestamp">${data.timestamp}</p>
-//                     <p class="post-content">${data.content}</p>
-//                 `;
-//                 postFeed.insertBefore(newPost, postFeed.firstChild);
-//                 document.getElementById("post-content").value = "";
-//             } else {
-//                 alert("Failed to post. Please try again.");
-//             }
-//         })
-//         .catch((error) => {
-//             console.error("Error:", error);
-//         });
-// });
+// Test log to ensure the script is loaded
+console.log("dashboard.js has loaded");
 
 // Handle Like Button Click
 document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("like-button")) {
-        const postId = event.target.getAttribute("data-post-id");
+    const button = event.target.closest(".like-button"); // Ensure correct button is targeted
+    if (button) {
+        const postId = button.getAttribute("data-post-id");
+
+        if (!postId) {
+            console.error("Post ID is undefined. Check the data-post-id attribute on the button.");
+            return;
+        }
 
         fetch(`/like/${postId}`, {
             method: "POST",
@@ -48,101 +18,76 @@ document.addEventListener("click", function (event) {
                 "Content-Type": "application/json",
             },
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to like/unlike the post");
+                }
+                return response.json();
+            })
             .then((data) => {
+                const icon = button.querySelector("i"); // Keep the icon intact
                 if (data.status === "liked") {
-                    event.target.textContent = `Unlike (${data.like_count})`;
+                    icon.className = "bi bi-heart-fill"; // Change to filled heart
+                    button.innerHTML = `<i class="${icon.className}"></i>(${data.like_count})`;
                 } else if (data.status === "unliked") {
-                    event.target.textContent = `Like (${data.like_count})`;
+                    icon.className = "bi bi-heart"; // Change to outlined heart
+                    button.innerHTML = `<i class="${icon.className}"></i>(${data.like_count})`;
                 }
             })
-            .catch((error) => console.error("Error liking/unliking post:", error));
+            .catch((error) => {
+                console.error("Error in fetch request:", error);
+            });
     }
 });
 
 
 
 
-// Handle Comment Submission
-// document.addEventListener("click", function (event) {
-//     if (event.target.classList.contains("comment-button")) {
-//         const postId = event.target.getAttribute("data-post-id");
-//         const commentInput = event.target.previousElementSibling.value;
-
-//         fetch("/comment", {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({ post_id: postId, content: commentInput }),
-//         })
-//             .then((response) => response.json())
-//             .then((data) => {
-//                 if (data.status === "success") {
-//                     const commentSection = document.getElementById(`comments-${postId}`);
-//                     const newComment = document.createElement("div");
-//                     newComment.classList.add("comment");
-//                     newComment.innerHTML = `
-//                         <p class="comment-author">${data.comment.author}</p>
-//                         <p class="comment-content">${data.comment.content}</p>
-//                         <p class="comment-timestamp">${data.comment.timestamp}</p>
-//                     `;
-//                     commentSection.appendChild(newComment);
-//                     event.target.previousElementSibling.value = ""; // Clear input
-//                 } else {
-//                     alert(data.error || "Failed to add comment.");
-//                 }
-//             })
-//             .catch((error) => console.error("Error adding comment:", error));
-//     }
-// });
-
-// document.addEventListener("click", function (event) {
-//     if (event.target.classList.contains("follow-button")) {
-//         const userId = event.target.getAttribute("data-user-id");
-//         const action = event.target.textContent.trim() === "Follow" ? "follow" : "unfollow";
-
-//         fetch(`/${action}/${userId}`, {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//         })
-//             .then((response) => response.json())
-//             .then((data) => {
-//                 if (data.status === "success") {
-//                     event.target.textContent = action === "follow" ? "Unfollow" : "Follow";
-//                 } else {
-//                     alert(data.message || "Failed to update follow status.");
-//                 }
-//             })
-//             .catch((error) => {
-//                 console.error("Error:", error);
-//                 alert("An error occurred. Please try again.");
-//             });
-//     }
-// });
-
-
-// Delete Post
+// DETEleetere
 document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("delete-post-button")) {
-        const postId = event.target.getAttribute("data-post-id");
+    // Check if the clicked element or its parent is the delete button
+    const button = event.target.closest(".delete-post-button");
 
-        fetch(`/delete_post/${postId}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.status === "success") {
-                    const postElement = document.getElementById(`post-${postId}`);
-                    postElement.remove(); // Remove the post from the DOM
-                } else {
-                    alert(data.error || "Failed to delete post.");
-                }
+    if (button) {
+        const postId = button.getAttribute("data-post-id") || button.closest(".post-cards"); // Retrieve post ID
+
+        if (!postId) {
+            console.error("Post ID is undefined. Check your button's data attributes.");
+            return;
+        }
+
+        // Confirm deletion
+        if (confirm("Are you sure you want to delete this post?")) {
+            // Send the delete request
+            fetch(`/delete_post/${postId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
-            .catch((error) => console.error("Error deleting post:", error));
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Failed to delete post");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data.status === "success") {
+                        const postElement = button.closest(".dashboard-posts-cards"); // Adjust the selector to match your HTML
+                        if (postElement) {
+                            postElement.remove(); // Remove the post dynamically
+                        }
+                    } else {
+                        alert(data.error || "Could not delete the post.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error deleting post:", error);
+                });
+        }
     }
 });
+
 
 // Delete Comment
 document.addEventListener("click", function (event) {
@@ -165,5 +110,24 @@ document.addEventListener("click", function (event) {
                 }
             })
             .catch((error) => console.error("Error deleting comment:", error));
+    }
+});
+
+
+document.getElementById("search-toggle").addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent form from submitting when clicked
+    const searchContainer = document.querySelector(".search-container");
+    searchContainer.classList.toggle("active"); // Toggle visibility
+  });
+  
+
+
+  document.addEventListener("click", function (event) {
+    if (event.target.closest(".toggle-comment-button")) {
+        const postCard = event.target.closest(".post-cards") || event.target.closest(".dashboard-posts-cards"); // Locate the post card
+        const commentForm = postCard.querySelector(".comment-form-container"); // Find the associated form
+        if (commentForm) {
+            commentForm.classList.toggle("hidden"); // Toggle visibility
+        }
     }
 });

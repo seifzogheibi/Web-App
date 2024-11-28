@@ -116,6 +116,10 @@ def profile(username):
     following_count = user.following.count()
     posts = Post.query.filter_by(author=user).all()
 
+    # Calculate followers and following counts
+    followers_count = user.followers.count()
+    following_count = user.following.count()
+
     is_current_user = user.id == current_user.id
 
     # Add like count and check if the current user liked each post
@@ -145,15 +149,22 @@ def like(post_id):
 @app.route('/comment/<int:post_id>', methods=['POST'])
 @login_required
 def comment(post_id):
+    post = Post.query.get_or_404(post_id)
     content = request.form.get('content')
-    if content.strip():
-        new_comment = Comment(content=content, user_id=current_user.id, post_id=post_id)
-        db.session.add(new_comment)
-        db.session.commit()
-        flash("Comment added successfully.")
-    else:
+
+    if not content or not content.strip():
+        app.logger.error(f"Failed to add comment: Empty content for post ID {post_id}")
         flash("Comment cannot be empty.")
-    return redirect(url_for('dashboard'))
+        return redirect(request.referrer or url_for('dashboard'))
+
+    new_comment = Comment(content=content.strip(), user_id=current_user.id, post_id=post_id)
+    db.session.add(new_comment)
+    db.session.commit()
+    app.logger.info(f"New comment added by {current_user.username} for post ID {post_id}")
+    flash("Comment added successfully.")
+    return redirect(request.referrer or url_for('dashboard'))
+
+
 
 
 @app.route('/search', methods=['GET'])
@@ -178,30 +189,23 @@ def view_profile(user_id):
     return render_template('profile.html', user=user, posts=user_posts)
 
 
-@app.route('/follow/<int:user_id>', methods=['POST'])
+@app.route('/follow_toggle/<int:user_id>', methods=['POST'])
 @login_required
-def follow(user_id):
-    user_to_follow = User.query.get_or_404(user_id)
-    if user_to_follow != current_user and user_to_follow not in current_user.following:
-        current_user.following.append(user_to_follow)
-        db.session.commit()
-        flash(f"You are now following {user_to_follow.username}.")
-    else:
-        flash("You are already following this user.")
-    return redirect(url_for('profile', username=user_to_follow.username))
+def follow_toggle(user_id):
+    user = User.query.get_or_404(user_id)
 
-
-@app.route('/unfollow/<int:user_id>', methods=['POST'])
-@login_required
-def unfollow(user_id):
-    user_to_unfollow = User.query.get_or_404(user_id)
-    if user_to_unfollow in current_user.following:
-        current_user.following.remove(user_to_unfollow)
+    # Check if the user is already followed
+    if user in current_user.following:
+        current_user.following.remove(user)
         db.session.commit()
-        flash(f"You unfollowed {user_to_unfollow.username}.")
+        flash(f"You unfollowed {user.username}.")
     else:
-        flash("You are not following this user.")
-    return redirect(url_for('profile', username=user_to_unfollow.username))
+        current_user.following.append(user)
+        db.session.commit()
+        flash(f"You are now following {user.username}.")
+
+    # Redirect back to the profile page
+    return redirect(url_for('profile', username=user.username))
 
 
 
@@ -218,7 +222,10 @@ def delete_post(post_id):
 
     db.session.delete(post)
     db.session.commit()
-    return jsonify({"status": "success", "post_id": post_id})
+    return jsonify({"status": "success", "post_id": post_id}), 200
+
+
+
 
 @app.route('/delete_comment/<int:comment_id>', methods=['POST'])
 @login_required
@@ -226,8 +233,9 @@ def delete_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     if comment.user_id != current_user.id:
         flash("You don't have permission to delete this comment.")
-        return jsonify({"status": "failure", "error": "Unauthorized"}), 403
+        return redirect(url_for('dashboard'))
 
     db.session.delete(comment)
     db.session.commit()
-    return jsonify({"status": "success", "comment_id": comment_id})
+    flash("Comment deleted successfully.")
+    return redirect(url_for('dashboard'))

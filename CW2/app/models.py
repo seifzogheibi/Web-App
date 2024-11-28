@@ -56,12 +56,14 @@ class Post(db.Model):
     likes = db.relationship('Like', backref='post', cascade="all, delete-orphan", lazy='dynamic')
     comments = db.relationship('Comment', backref='post', cascade="all, delete-orphan", lazy='dynamic')
 
+
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
-
     user = db.relationship('User', backref='likes', lazy=True)
+
+
 
 
 class Comment(db.Model):

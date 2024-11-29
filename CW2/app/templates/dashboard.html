@@ -6,11 +6,11 @@
 <div class="content-container">
     <h1 class="page-header">Welcome, @{{ user.username }}!</h1>
 
-    <!-- Form to Create a New Post -->
-    <div class="create-post-container">
-        <form method="POST" action="{{ url_for('create_post') }}" class="create-post-form">
-            <textarea name="content" placeholder="What's on your mind?" rows="3"></textarea>
-            <button type="submit" class="btn btn-primary">Post</button>
+    <!-- Form to Search -->
+    <div class="search-container">
+        <form method="GET" action="/search">
+            <input type="text" placeholder="Search for a user" name="query" class="search-input">
+            <button type="submit" class="search-button"><i class="bi bi-search"></i></button>
         </form>
     </div>
 
@@ -30,16 +30,16 @@
             </div>
 
             <!-- Post Actions -->
-            <div class="post-actions">
+            <div class="post-actions-dash">
                 <!-- Like Button -->
                 <button type="button" class="btn btn-outline-danger like-button" data-post-id="{{ post.id }}">
                     <i class="bi {% if post.is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
                     ({{ post.like_count }})
                 </button>
 
-                <!-- Comment Button -->
-                <button type="button" class="btn btn-outline-primary toggle-comment-button">
-                    <i class="bi bi-chat-dots"></i> Comment
+                <!-- View Comments Button -->
+                <button type="button" class="btn btn-outline-primary toggle-comments-button">
+                    View Comments
                 </button>
 
                 <!-- Delete Button -->
@@ -50,22 +50,25 @@
                 {% endif %}
             </div>
 
-            <!-- Comment Form -->
-            <div class="comment-form-container hidden">
-                <form method="POST" action="{{ url_for('comment', post_id=post.id) }}">
-                    <textarea name="content" placeholder="Write a comment..." rows="2"></textarea>
-                    <button type="submit" class="btn btn-primary">Post Comment</button>
-                </form>
-            </div>
-
-            <!-- Display Comments -->
-            <div class="comment-section">
-                {% for comment in post.comments %}
-                <div class="comment">
-                    <span class="comment-author">@{{ comment.author.username }}</span>: 
-                    <span class="comment-content">{{ comment.content }}</span>
+            <!-- Comments Section -->
+            <div class="comments-container hidden">
+                <!-- Display Comments -->
+                <div class="comment-section">
+                    {% for comment in post.comments %}
+                    <div class="comment">
+                        <span class="comment-author">@{{ comment.author.username }}</span>: 
+                        <span class="comment-content">{{ comment.content }}</span>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+
+                <!-- Add Comment Form -->
+                <div class="add-comment-form">
+                    <form method="POST" action="{{ url_for('comment', post_id=post.id) }}">
+                        <textarea name="content" placeholder="Write a comment..." rows="2"></textarea>
+                        <button type="submit" class="btn btn-primary comment-button">Post Comment</button>
+                    </form>
+                </div>
             </div>
         </div>
         {% endfor %}

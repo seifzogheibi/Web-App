@@ -18,14 +18,15 @@
         <li><a href="/dashboard"><i class="nav-buttons bi-house-door-fill"></i></a></li>
         <li><a href="{{ url_for('profile', username=current_user.username) }}"><i class="nav-buttons bi-person"></i></a></li>
 
-    <!-- Search Section NO CSS -->
+    <!-- POst Section -->
     <li>
-        <div class="search-container">
-            <form method="GET" action="/search">
-                <input type="text" placeholder="Search" name="query" class="search-input">
-                <button type="submit" class="search-button"><i class="bi bi-search"></i></button>
-            </form>
+        <div class="create-post-container">
+            <form method="POST" action="{{ url_for('create_post') }}" class="create-post-form">
+                <textarea name="content" placeholder="What's on your mind?" rows="3"></textarea>
+                
+                <button type="submit" class="btn btn-primary">Post</button>
         </div>
+    </form>
     </li>
 </ul>
 

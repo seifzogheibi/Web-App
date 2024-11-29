@@ -114,20 +114,28 @@ document.addEventListener("click", function (event) {
 });
 
 
-document.getElementById("search-toggle").addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent form from submitting when clicked
-    const searchContainer = document.querySelector(".search-container");
-    searchContainer.classList.toggle("active"); // Toggle visibility
-  });
+// document.getElementById("search-toggle").addEventListener("click", function (event) {
+//     event.preventDefault(); // Prevent form from submitting when clicked
+//     const searchContainer = document.querySelector(".search-container");
+//     searchContainer.classList.toggle("active"); // Toggle visibility
+//   });
   
 
 
-  document.addEventListener("click", function (event) {
-    if (event.target.closest(".toggle-comment-button")) {
-        const postCard = event.target.closest(".post-cards") || event.target.closest(".dashboard-posts-cards"); // Locate the post card
-        const commentForm = postCard.querySelector(".comment-form-container"); // Find the associated form
-        if (commentForm) {
-            commentForm.classList.toggle("hidden"); // Toggle visibility
+// Toggle Comments Section
+document.addEventListener("click", function (event) {
+    const button = event.target.closest(".toggle-comments-button"); // Ensure correct button is targeted
+    if (button) {
+        const commentsContainer = button.closest(".dashboard-posts-cards").querySelector(".comments-container");
+        if (commentsContainer) {
+            commentsContainer.classList.toggle("hidden"); // Toggle visibility
+            // Update button text based on visibility
+            button.textContent = commentsContainer.classList.contains("hidden")
+                ? "View Comments"
+                : "Hide Comments";
         }
     }
 });
+
+
+

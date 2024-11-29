@@ -122,10 +122,12 @@ def profile(username):
 
     is_current_user = user.id == current_user.id
 
-    # Add like count and check if the current user liked each post
     for post in posts:
         post.like_count = post.likes.count()
         post.is_liked = current_user in [like.user for like in post.likes]
+        
+        app.logger.info(f"User bio for {username}: {user.bio}")
+
 
     return render_template('profile.html', user=user, followers=followers_count, current_user=current_user, following=following_count, posts=posts, is_current_user=is_current_user)
 
@@ -239,3 +241,43 @@ def delete_comment(comment_id):
     db.session.commit()
     flash("Comment deleted successfully.")
     return redirect(url_for('dashboard'))
+
+
+from werkzeug.security import generate_password_hash
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    if request.method == 'POST':
+        username = request.form.get('username').strip()
+        bio = request.form.get('bio').strip()
+        email = request.form.get('email').strip()
+        password = request.form.get('password').strip()
+
+        # Validate unique email
+        existing_email = User.query.filter_by(email=email).first()
+        if existing_email and existing_email.id != current_user.id:
+            flash('Email is already taken.', 'danger')
+            return redirect(url_for('edit_profile'))
+
+        # Update fields
+        current_user.username = username
+        current_user.bio = bio
+        current_user.email = email
+
+        # Only update password if provided
+        if password:
+            current_user.password = generate_password_hash(password)
+
+        db.session.commit()
+        flash('Your profile has been updated!', 'success')
+        return redirect(url_for('profile', username=current_user.username))
+
+    return render_template('edit_profile.html', user=current_user)
+
+@app.route('/post/<int:post_id>')
+def view_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    comments = post.comments.all()
+    return render_template('view_post.html', post=post, comments=comments)
+

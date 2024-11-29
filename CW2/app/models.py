@@ -38,7 +38,10 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    bio = db.Column(db.Text, nullable=True)  # Ensure bio field exists
     posts = db.relationship('Post', backref='author', lazy=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)  # Ensure email is unique
+    password = db.Column(db.String(128), nullable=False)  # Hashed password
     # date_joined = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     following = db.relationship(

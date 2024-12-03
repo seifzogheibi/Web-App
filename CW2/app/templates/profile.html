@@ -6,10 +6,12 @@
 <div class="content-container">
     <!-- Profile Header -->
     <div class="profile-container">
-        <div class="profile-header">
-            <div class="profile-info">
                 <h2>@{{ user.username }}</h2>
-                <p class="bio">{{ user.bio if user.bio else "No bio available" }}</p>
+                {% if user.bio %}
+                <p class="bio">{{ user.bio }}</p>
+                {% else %}
+                <p class="no-bio">No bio available</p>
+                {% endif %}
                 <div class="followers-following">
                     <span><strong>{{ followers }}</strong> Followers</span>
                     <span><strong>{{ following }}</strong> Following</span>
@@ -19,7 +21,7 @@
                 {% if user.id != current_user.id %}
                 <form method="POST" action="{{ url_for('follow_toggle', user_id=user.id) }}">
                     {% if user in current_user.following %}
-                    <button type="submit" class="follow-button">Unfollow</button>
+                    <button type="submit" class="unfollow-button">Unfollow</button>
                     {% else %}
                     <button type="submit" class="follow-button">Follow</button>
                     {% endif %}
@@ -30,48 +32,30 @@
                 {% if user.id == current_user.id %}
                 <a href="{{ url_for('edit_profile') }}" class="btn btn-primary edit-profile-button">Edit Profile</a>
                 {% endif %}
-            </div>
-        </div>
     </div>
 
     <!-- Posts Section -->
     {% if posts %}
-    <div class="posts-grid">
-        {% for post in posts %}
-        <div class="post-cards">
-            <!-- Post Content -->
-            <a href="{{ url_for('view_post', post_id=post.id) }}" class="post-link">
-                <div class="post-header">
-                    <span class="post-author">@{{ post.author.username }}</span>
-                    <span class="post-time"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
-                </div>
-                <div class="post-content">
-                    {{ post.content }}
-                </div>
-            </a>
-
-            <!-- Post Actions -->
-            <div class="post-actions">
-                <!-- Like Button -->
-                <button type="button" class="btn btn-outline-danger like-button" data-post-id="{{ post.id }}">
-                    <i class="bi {% if post.is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
-                    ({{ post.like_count }})
-                </button>
-
-                <!-- Comment Button -->
-                <button type="button" class="btn btn-outline-primary toggle-comment-button">
-                    <i class="bi bi-chat-dots"></i> Comments
-                </button>
-
-                <!-- Delete Button -->
-                {% if post.author.id == current_user.id %}
-                <button type="button" class="btn btn-outline-dark delete-post-button" data-post-id="{{ post.id }}">
-                    <i class="bi bi-trash"></i>
-                </button>
-                {% endif %}
+    <div class="container-fluid">
+        <div class="row d-flex p-2 bd-highlight h-100">
+            {% for post in posts %}
+            <div class="test col-md-4 mh-50">
+                <!-- Post Content -->
+                <a href="{{ url_for('view_post', post_id=post.id) }}" class="post-link">
+                    
+                    <div class="card post-content profile-post-card">
+                        <div class="card-header ">
+                            <span class="text-dark post-author">@{{ post.author.username }}</span>
+                            <span class="text-dark post-time"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
+                        </div>
+                        <div class="card-body">
+                            {{ post.content }}
+                        </div>
+                    </div>
+                </a>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
     {% else %}
             <div class="no-posts-message">

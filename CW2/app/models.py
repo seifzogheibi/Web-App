@@ -38,18 +38,16 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    bio = db.Column(db.Text, nullable=True)  # Ensure bio field exists
+    bio = db.Column(db.Text, nullable=True)
     posts = db.relationship('Post', backref='author', lazy=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)  # Ensure email is unique
-    password = db.Column(db.String(128), nullable=False)  # Hashed password
-    # date_joined = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)
     
     following = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
-        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic'
-    )
+        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

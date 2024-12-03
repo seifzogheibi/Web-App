@@ -4,7 +4,38 @@
 
 {% block content %}
 <div class="content-container">
-    <h1 class="page-header">Welcome, @{{ user.username }}!</h1>
+    <h1 class="page-header"><strong>Welcome, @{{ user.username }}!</strong></h1>
+
+<!-- Create Post Section -->
+<div class="create-post-container text-center mb-4">
+    <form method="POST" action="{{ url_for('create_post') }}" class="d-flex flex-column align-items-center">
+        <textarea
+            name="content"
+            class="form-control mb-2 create-post-input"
+            placeholder="What's on your mind?"
+            rows="3"
+            style="max-width: 600px;"
+            required
+        ></textarea>
+
+        <input
+        type="file"
+        name="image"
+        class="form-control mb-2 image-input"
+        style="max-width: 600px;"
+        accept="image/*"
+        />
+        <input
+            type="text"
+            name="image_alt"
+            class="form-control mb-2 image-alt-input"
+            placeholder="Enter image alt text (required if uploading an image)"
+            style="max-width: 600px;"
+        />
+
+        <button type="submit" class="btn btn-primary create-post-button">Create Post</button>
+    </form>
+</div>
 
     <!-- Form to Search -->
     <div class="search-container">
@@ -21,12 +52,15 @@
             <!-- Post Header -->
             <div class="post-header">
                 <span class="post-author">@{{ post.author.username }}</span>
-                <span class="post-time"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
+                <span class="post-date"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
             </div>
 
             <!-- Post Content -->
-            <div class="post-content">
-                {{ post.content }}
+            <div class="dashboard-post-content">
+                <p>{{ post.content }}</p>
+                {% if post.image_url %}
+                <img src="{{ url_for('static', filename=post.image_url) }}" alt="{{ post.image_alt }}">
+                {% endif %}
             </div>
 
             <!-- Post Actions -->
@@ -39,7 +73,7 @@
 
                 <!-- View Comments Button -->
                 <button type="button" class="btn btn-outline-primary toggle-comments-button">
-                    View Comments
+                    View Comments ({{ post.comment_count }})
                 </button>
 
                 <!-- Delete Button -->
@@ -65,7 +99,7 @@
                 <!-- Add Comment Form -->
                 <div class="add-comment-form">
                     <form method="POST" action="{{ url_for('comment', post_id=post.id) }}">
-                        <textarea name="content" placeholder="Write a comment..." rows="2"></textarea>
+                        <textarea name="content" placeholder="Leave a comment..." rows="2"></textarea>
                         <button type="submit" class="btn btn-primary comment-button">Post Comment</button>
                     </form>
                 </div>

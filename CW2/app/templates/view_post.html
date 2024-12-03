@@ -3,60 +3,55 @@
 {% block title %}View Post{% endblock %}
 
 {% block content %}
-<div class="content-container">
-    <div class="view-post-container">
-        <!-- Post Header -->
-        <div class="post-header">
-            <span class="post-author">@{{ post.author.username }}</span>
-            <span class="post-time"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
-        </div>
-
-        <!-- Post Content -->
-        <div class="post-content">
-            <p>{{ post.content }}</p>
-        </div>
-
-        <!-- Post Actions -->
-        <div class="post-actions">
-            <!-- Like Button -->
-            <button type="button" class="btn btn-outline-danger like-button" data-post-id="{{ post.id }}">
-                <i class="bi {% if post.is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
-                ({{ post.like_count }})
-            </button>
-
-            <!-- Comment Button -->
-            <button type="button" class="btn btn-outline-primary toggle-comment-section">
-                View Comments
-            </button>
-
-            <!-- Delete Button -->
-            {% if post.author.id == current_user.id %}
-            <button type="button" class="btn btn-outline-dark delete-post-button" data-post-id="{{ post.id }}">
-                <i class="bi bi-trash"></i>
-            </button>
-            {% endif %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="col-md-8">
+        <!-- Post Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">@{{ post.author.username }}</h5>
+                <p class="card-text">{{ post.content }}</p>
+                <p class="text-muted small">{{ post.timestamp.strftime('%Y-%m-%d') }}</p>
+                <div class="d-flex justify-content-start align-items-center big-actions">
+                    <button type="button" class="btn btn-outline-danger like-button" data-post-id="{{ post.id }}">
+                        <i class="bi {% if post.is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                        ({{ post.like_count }})
+                    </button>
+                    {% if post.author.id == current_user.id %}
+                    <button type="button" class="btn btn-outline-dark delete-post-button" data-post-id="{{ post.id }}">
+                        <i class="bi bi-trash"></i>
+                    </button>                    
+                    {% endif %}
+                </div>
+            </div>
         </div>
 
         <!-- Comments Section -->
-        <div class="comments-container">
-            <h3>Comments</h3>
+        <div class="p-3 rounded-3 mt-4 view-card">
+            <h3 class="mb-3">Comments</h3>
             {% for comment in comments %}
-            <div class="comment">
-                <span class="comment-author"><strong>@{{ comment.author.username }}</strong></span>: 
-                <span class="comment-content">{{ comment.content }}</span>
+            <div class="big-comment p-2 rounded-3 mb-2">
+                <strong>@{{ comment.author.username }}</strong>: {{ comment.content }}
             </div>
             {% else %}
-            <p>No comments yet. Be the first to comment!</p>
+            <p class="text-muted">No comments yet. Be the first to comment!</p>
             {% endfor %}
         </div>
-
+        
         <!-- Add Comment Form -->
-        <div class="add-comment-form">
+        <div class="add-comment-form text-white p-3 rounded-3 mt-3">
             <form method="POST" action="{{ url_for('comment', post_id=post.id) }}">
-                <textarea name="content" placeholder="Write a comment..." rows="2"></textarea>
-                <button type="submit" class="btn btn-primary">Post Comment</button>
+                <div class="mb-3 big-comment-form">
+                    <textarea 
+                        name="content" 
+                        class="border-1 rounded-3 create-post-input" 
+                        rows="2" 
+                        placeholder="Leave a comment..."></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary w-100 comment-button">Post Comment</button>
+                </div>
             </form>
-        </div>
+        </div>                   
     </div>
 </div>
 {% endblock %}

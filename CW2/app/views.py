@@ -91,15 +91,19 @@ def dashboard():
         post.like_count = post.likes.count()
         post.is_liked = Like.query.filter_by(user_id=current_user.id, post_id=post.id).first() is not None
 
-    return render_template('dashboard.html', user=current_user, posts=posts)
+    for post in posts:
+            post.like_count = post.likes.count()
+            post.comment_count = post.comments.count()  # Add comment count
+            post.is_liked = Like.query.filter_by(user_id=current_user.id, post_id=post.id).first() is not None
 
+    return render_template('dashboard.html', user=current_user, posts=posts)
 
 
 @app.route('/create_post', methods=['POST'])
 @login_required
 def create_post():
-    content = request.form.get('content')
-    if content.strip():
+    content = request.form.get('content').strip()
+    if content:
         new_post = Post(content=content, user_id=current_user.id)
         db.session.add(new_post)
         db.session.commit()
@@ -107,6 +111,7 @@ def create_post():
     else:
         flash("Post content cannot be empty.")
     return redirect(url_for('dashboard'))
+
 
 
 @app.route('/profile/<username>')
@@ -242,8 +247,6 @@ def delete_comment(comment_id):
     flash("Comment deleted successfully.")
     return redirect(url_for('dashboard'))
 
-
-from werkzeug.security import generate_password_hash
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required

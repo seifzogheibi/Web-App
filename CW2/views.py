@@ -3,8 +3,8 @@ from flask import render_template, redirect, request, flash, url_for, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from app import app, db
-from app.models import User, Post, Like, Comment, followers
+from CW2 import app, db
+from CW2.models import User, Post, Like, Comment, followers
 import os
 
 
@@ -187,8 +187,7 @@ def comment(post_id):
                           user_id=current_user.id, post_id=post_id)
     db.session.add(new_comment)
     db.session.commit()
-    app.logger.info(f"New comment added by {
-                    current_user.username} for post ID {post_id}")
+    app.logger.info(f"New comment added by {current_user.username} for post ID {post_id}")
     flash("Comment added successfully.")
     return redirect(request.referrer or url_for('dashboard'))
 

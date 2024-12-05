@@ -1,0 +1,50 @@
+body {
+    background: linear-gradient(to bottom, #000000, #000000);
+    color: white;
+    margin-left: auto;
+    padding: auto;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-attachment: fixed;
+}
+  
+html {
+    scroll-behavior: smooth;
+  }
+
+.search-results-container {
+    margin-top: 50px;
+    color: white;
+}
+
+.search-results-container h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.list-group-item {
+    background-color: black !important;
+    border: none !important;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.list-group-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.list-group-item a {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+
+.list-group-item a:hover {
+    color: #9400D3; /* Neon purple */
+}

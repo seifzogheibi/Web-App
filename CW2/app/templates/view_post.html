@@ -3,24 +3,24 @@
 {% block title %}View Post{% endblock %}
 
 {% block content %}
-<div class="container mt-5 d-flex justify-content-center">
+<div class="content-container mt-5 d-flex justify-content-center">
     <div class="col-md-8">
         <!-- Post Section -->
         <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">@{{ post.author.username }}</h5>
+            <div class="card-body view-card">
+                <h5 class="card-title"><a href="{{ url_for('profile', username=post.author.username) }}"
+                        class="text-black"><strong>@{{ post.author.username }}</strong></a></h5>
                 <p class="card-text">{{ post.content }}</p>
+                {% if post.image_url %}
+                <img src="{{ url_for('static', filename=post.image_url) }}" alt="Post Image"
+                    class="img-fluid mb-3 rounded">
+                {% endif %}
                 <p class="text-muted small">{{ post.timestamp.strftime('%Y-%m-%d') }}</p>
                 <div class="d-flex justify-content-start align-items-center big-actions">
                     <button type="button" class="btn btn-outline-danger like-button" data-post-id="{{ post.id }}">
                         <i class="bi {% if post.is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
                         ({{ post.like_count }})
                     </button>
-                    {% if post.author.id == current_user.id %}
-                    <button type="button" class="btn btn-outline-dark delete-post-button" data-post-id="{{ post.id }}">
-                        <i class="bi bi-trash"></i>
-                    </button>                    
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -29,29 +29,38 @@
         <div class="p-3 rounded-3 mt-4 view-card">
             <h3 class="mb-3">Comments</h3>
             {% for comment in comments %}
-            <div class="big-comment p-2 rounded-3 mb-2">
-                <strong>@{{ comment.author.username }}</strong>: {{ comment.content }}
+            <div class="big-comment d-flex justify-content-between align-items-center p-2 rounded-3 mb-2">
+                <div>
+                    <a href="{{ url_for('profile', username=comment.author.username) }}" class="text-white">
+                        <strong>@{{ comment.author.username }}</strong></a>: {{ comment.content }}
+                </div>
+                {% if comment.author.id == current_user.id %}
+                <!-- Delete Button -->
+                <button type="button" class="btn btn-sm btn-outline-danger delete-comment-button"
+                    data-comment-id="{{ comment.id }}">
+                    <i class="bi bi-trash"></i>
+                </button>
+                {% endif %}
             </div>
             {% else %}
             <p class="text-muted">No comments yet. Be the first to comment!</p>
             {% endfor %}
         </div>
-        
+
+
         <!-- Add Comment Form -->
         <div class="add-comment-form text-white p-3 rounded-3 mt-3">
             <form method="POST" action="{{ url_for('comment', post_id=post.id) }}">
                 <div class="mb-3 big-comment-form">
-                    <textarea 
-                        name="content" 
-                        class="border-1 rounded-3 create-post-input" 
-                        rows="2" 
-                        placeholder="Leave a comment..."></textarea>
+                    <textarea name="content" class="form-control border-1 rounded-3 create-post-input" rows="2"
+                        placeholder="Leave a comment..." maxlength="100"></textarea>
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary w-100 comment-button">Post Comment</button>
                 </div>
             </form>
-        </div>                   
+        </div>
+
     </div>
 </div>
 {% endblock %}

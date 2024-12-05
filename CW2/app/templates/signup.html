@@ -7,12 +7,16 @@
     <h1 class="title">SeifClub</h1>
     <p class="text1">Sign up to the world's leading social media platform.</p>
     <form method="POST">
-            <input type="text" name="username" class="form-box" placeholder="Username" required>
-            <input type="email" name="email" class="form-box" placeholder="E-mail" required>
-            <input type="password" name="password" name="password" class="form-box" placeholder="Password" required>
-            <input type="password" name="confirm-password" class="form-box" placeholder="Confim Password" required>
+        <input type="text" name="username" class="form-box" placeholder="Username" maxlength="20" required>
+        <input type="email" name="email" class="form-box" placeholder="E-mail" maxlength="30" required>
+        <input type="password" name="password" id="password" class="form-box" placeholder="Password" minlength="4"
+            maxlength="20" required>
+        <input type="password" name="confirm-password" id="confirm-password" class="form-box"
+            placeholder="Confirm Password" required>
+        <span id="password-error" class="password-message">Passwords do not match.</span>
         <button type="submit" class="login-button">Sign Up</button>
     </form>
     <p class="text2">Already have an account? <a href="{{ url_for('login') }}">Log In</a></p>
 </div>
+
 {% endblock %}

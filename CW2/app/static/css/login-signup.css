@@ -1,0 +1,117 @@
+body {
+    background: linear-gradient(to bottom, #000000, #000000);
+    /* background: linear-gradient(to bottom, #832323, #a05858); */
+    color: white;
+    margin-left: auto;
+    padding: auto;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* background: linear-gradient(to bottom, #9a9898, #939393); */
+    background-attachment: fixed;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* LOGIN/SIGNUP PAGE */
+.authorization-container {
+    width: 100% !important;
+    margin-top: 10%;
+    padding: 20px;
+    background-color: rgba(74, 74, 74, 0.518);
+    border-radius: 20px;
+    text-align: center;
+    margin-left: 35px;
+}
+
+.title {
+    color: rgb(219, 0, 197);
+    font-size: 12.5vw;
+    font-weight: bold;
+    font-family: "League Script", cursive;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.form-box {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #444;
+    color: white;
+}
+
+.authorization-form input::placeholder {
+    color: #bbb;
+}
+
+.authorization-form:focus {
+    outline: none;
+    border-color: rgb(219, 0, 197);
+}
+
+.login-button {
+    width: 70%;
+    padding: 10px;
+    font-size: 1em;
+    margin-top: 30px;
+    background-color: white;
+    border: solid black;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: rgb(219, 0, 197);
+    border-color: rgb(219, 0, 197);
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.text1 {
+    font-size: 1.7em;
+    color: gainsboro;
+    text-align: center;
+}
+
+.text2 {
+    font-size: 1em;
+    color: #cfcfcf;
+    margin-top: 10px;
+}
+
+.text2 a{
+    color: #cfcfcf;
+}
+
+.text2 a:hover {
+    color: rgb(219, 0, 197);
+}
+
+.password-message {
+    color: red;
+    display:none;
+}
+
+@media (min-width: 767px) {
+    .authorization-container {
+        width: 40% !important;
+        margin-top: 10% !important;
+        margin-left: 35px !important;
+    }
+
+    .title {
+        font-size: 4.5vw;
+    }
+
+}

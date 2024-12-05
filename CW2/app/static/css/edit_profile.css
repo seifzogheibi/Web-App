@@ -1,0 +1,57 @@
+body {
+    background: linear-gradient(to bottom, #000000, #000000);
+    /* background: linear-gradient(to bottom, #832323, #a05858); */
+    color: white;
+    margin-left: auto;
+    padding: auto;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* background: linear-gradient(to bottom, #9a9898, #939393); */
+    background-attachment: fixed;
+}
+  
+html {
+    scroll-behavior: smooth;
+  }
+  
+  .edit-profile-container {
+    background-color: rgb(0, 0, 0) !important;
+    color: rgb(234, 234, 234);
+}
+
+.edit-profile-header {
+    background-color: none !important;
+    color: rgb(234, 234, 234) !important;
+}
+
+.edit-forms:focus {
+    outline: none;
+    border-color: rgb(219, 0, 197) !important;
+}
+
+.save-changes {
+    background-color: rgb(219, 0, 197) !important;
+    color: rgb(0, 0, 0) !important;
+}
+
+.save-changes:hover {
+    background-color: rgb(185, 0, 166) !important;
+}
+
+.edit-header h5 {
+    margin-top: 0;
+    line-height: 2.2;
+    font-size: 1em !important;
+    margin-bottom: -1.5rem;
+    font-weight: bolder !important;
+}
+/* {
+    margin-top: -14px;
+    margin-bottom: -1.5rem;
+    font-weight: bolder;
+    line-height: 1.2;
+    color: var(--bs-heading-color);
+} */

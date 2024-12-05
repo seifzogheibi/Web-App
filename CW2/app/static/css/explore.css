@@ -1,0 +1,100 @@
+/* Explore Page Styles */
+.explore-page-container {
+    padding-left: 10%;
+    padding-right: 10%;
+    /* background-color: #f8f9fa; */
+}
+
+.explore-page-header {
+    font-size: 2.5em;
+    color: rgb(219, 0, 197);
+    font-family: "League Script", cursive;
+}
+
+.explore-search-container input {
+    max-width: 600px;
+    width: 100%;
+}
+
+.explore-search-container button {
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Grid layout for explore posts with space between cards */
+.explore-posts-grid .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Adds space between the cards */
+}
+
+/* Make the cards larger on hover */
+.explore-card:hover {
+    transform: scale(1.01);
+    border: 2px solid rgb(219, 0, 197);
+}
+
+/* Styling for the card body */
+.explore-card-body {
+    padding: 15px;
+    /* min-height: 500px;
+    min-width: 400px;
+    max-height: 500px;
+    max-width: 400px; */
+    height: 500px;
+    width: 400px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures that content is spaced well */
+}
+
+/* Styling for the card title */
+.explore-card-title {
+    font-weight: bold;
+}
+
+/* Styling for the images in the card to fit */
+.explore-card-body img {
+    width: 100%;
+    height: 95%;
+    object-fit: cover; /* Makes the image fit the card */
+    margin-bottom: 15px;
+    border: 2px solid black;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .explore-page-container {
+        padding-left: 5% !important;
+        padding-right: 5% !important;
+    }
+
+    .explore-page-header {
+        font-size: 2em;
+    }
+
+    .explore-search-container input,
+    .explore-search-container button {
+        max-width: 100% !important;
+    }
+
+    .explore-posts-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 columns layout for small screens */
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .explore-page-header {
+        font-size: 1.5em;
+    }
+
+    .explore-posts-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* 1 column layout for mobile screens */
+        gap: 10px;
+    }
+}

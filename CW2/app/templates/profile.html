@@ -6,32 +6,41 @@
 <div class="content-container">
     <!-- Profile Header -->
     <div class="profile-container">
-                <h2>@{{ user.username }}</h2>
-                {% if user.bio %}
-                <p class="bio">{{ user.bio }}</p>
-                {% else %}
-                <p class="no-bio">No bio available</p>
-                {% endif %}
-                <div class="followers-following">
-                    <span><strong>{{ followers }}</strong> Followers</span>
-                    <span><strong>{{ following }}</strong> Following</span>
-                </div>
+        <h2>@{{ user.username }}</h2>
+        {% if user.bio %}
+        <p class="bio">{{ user.bio }}</p>
+        {% else %}
+        <p class="no-bio">No bio available</p>
+        {% endif %}
+        <div class="followers-following">
+            {% if user.id == current_user.id %}
+            <!-- Only display clickable links for the profile owner -->
+            <span><a href="{{ url_for('followers_page', username=user.username) }}"><strong>{{ followers }}</strong>
+                    Followers</a></span>
+            <span><a href="{{ url_for('following_page', username=user.username) }}"><strong>{{ following }}</strong>
+                    Following</a></span>
+            {% else %}
+            <!-- Display counts without links for others -->
+            <span><strong>{{ followers }}</strong> Followers</span>
+            <span><strong>{{ following }}</strong> Following</span>
+            {% endif %}
+        </div>
 
-                <!-- Follow/Unfollow Button -->
-                {% if user.id != current_user.id %}
-                <form method="POST" action="{{ url_for('follow_toggle', user_id=user.id) }}">
-                    {% if user in current_user.following %}
-                    <button type="submit" class="unfollow-button">Unfollow</button>
-                    {% else %}
-                    <button type="submit" class="follow-button">Follow</button>
-                    {% endif %}
-                </form>
-                {% endif %}
+        <!-- Follow/Unfollow Button -->
+        {% if user.id != current_user.id %}
+        <form method="POST" action="{{ url_for('follow_toggle', user_id=user.id) }}">
+            {% if user in current_user.following %}
+            <button type="submit" class="unfollow-button">Unfollow</button>
+            {% else %}
+            <button type="submit" class="follow-button">Follow</button>
+            {% endif %}
+        </form>
+        {% endif %}
 
-                <!-- Edit Profile Button -->
-                {% if user.id == current_user.id %}
-                <a href="{{ url_for('edit_profile') }}" class="btn btn-primary edit-profile-button">Edit Profile</a>
-                {% endif %}
+        <!-- Edit Profile Button -->
+        {% if user.id == current_user.id %}
+        <a href="{{ url_for('edit_profile') }}" class="btn btn-primary edit-profile-button">Edit Profile</a>
+        {% endif %}
     </div>
 
     <!-- Posts Section -->
@@ -42,7 +51,7 @@
             <div class="test col-md-4 mh-50">
                 <!-- Post Content -->
                 <a href="{{ url_for('view_post', post_id=post.id) }}" class="post-link">
-                    
+
                     <div class="card post-content profile-post-card">
                         <div class="card-header ">
                             <span class="text-dark post-author">@{{ post.author.username }}</span>
@@ -50,6 +59,11 @@
                         </div>
                         <div class="card-body">
                             {{ post.content }}
+                            {% if post.image_url %}
+                            <img src="{{ url_for('static', filename=post.image_url) }}" alt="Post Image"
+                                class="img-fluid mb-3 rounded">
+                            {% endif %}
+
                         </div>
                     </div>
                 </a>
@@ -58,9 +72,9 @@
         </div>
     </div>
     {% else %}
-            <div class="no-posts-message">
-                <p>@{{ user.username }} has no posts.</p>
-            </div>
-        {% endif %}
+    <div class="no-posts-message">
+        <p>@{{ user.username }} has no posts.</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

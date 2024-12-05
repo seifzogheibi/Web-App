@@ -1,0 +1,51 @@
+body {
+    background: linear-gradient(to bottom, #000000, #000000);
+    color: white;
+    margin-left: auto;
+    padding: auto;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* background: linear-gradient(to bottom, #9a9898, #939393); */
+    background-attachment: fixed;
+}
+  
+html {
+    scroll-behavior: smooth;
+  }
+
+textarea.form-control {
+    border-radius: 5px;
+    resize: none;
+}
+
+.view-card {
+    background-color: rgba(255, 255, 255, 0.642) !important;
+    border: 2px solid rgb(219, 0, 197) !important;
+    width: 100% !important;
+}
+
+.big-comment {
+    background-color: rgba(0, 0, 0, 0.623) !important;
+    color: white;
+}
+
+.big-comment-form{
+    width: 100%;
+}
+
+.big-comment a {
+    text-decoration: none;
+}
+
+.big-comment-form textarea::placeholder{
+    color: #ccc;
+    font-style: italic !important;
+}
+
+.big-actions {
+    display: flex;
+    gap: 20px;
+}

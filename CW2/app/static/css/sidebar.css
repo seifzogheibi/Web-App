@@ -1,0 +1,147 @@
+body {
+    background: linear-gradient(to bottom, #000000, #000000);
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Sidebar Styles */
+.sidebar-container {
+    position: relative;
+    width: 100%;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: black;
+    color: white;
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+    border-right: 2px solid rgb(132, 132, 132);
+    z-index: 1000;
+}
+
+/* Sidebar Logo */
+.sidebar-logo {
+    color: rgb(219, 0, 197);
+    font-family: 'Cedarville Cursive', cursive;
+    text-decoration: none;
+    font-size: 1.5em;
+}
+
+/* Sidebar Links */
+.sidebar .nav-link {
+    padding: 10px 15px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover and Active State for Links */
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: rgb(219, 0, 197);
+    color: #fff;
+}
+
+/* Icon Styling */
+.sidebar .nav-link i {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+/* Logout Button Styling */
+.nav-link.text-danger {
+    margin-top: auto;
+}
+
+/* Hidden Sidebar (Mobile) */
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+/* Sidebar Toggle Button */
+.toggle-sidebar-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background-color: black;
+    color: white;
+    border: none;
+    font-size: 24px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        transform: translateX(0);
+    }
+
+    .sidebar.hidden {
+        transform: translateX(0);
+    }
+
+    .toggle-sidebar-btn {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .sidebar {
+        transform: translateX(-100%); 
+        display: block;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .toggle-sidebar-btn {
+        display: block;
+    }
+
+    .sidebar-logo {
+        font-size: 1.5em;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .sidebar .nav-link {
+        font-size: 16px;
+    }
+
+    .sidebar .nav-item {
+        margin-bottom: 15px;
+    }
+
+    .sidebar .nav-link i {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar-logo {
+        font-size: 1.3em;
+    }
+
+    .sidebar .nav-link {
+        font-size: 14px;
+    }
+}

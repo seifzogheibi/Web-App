@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Explore{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1 class="page-header text-center mb-4"><strong>SeifClub</strong></h1>
+
+    <!-- Search Bar -->
+    <div class="explore-search-container text-center mb-4">
+        <form method="GET" action="/search" class="d-inline-block" style="max-width: 600px; width: 100%;">
+            <label for="searchQuery" class="form-label hidden">Search for a user</label>
+            <input type="text" placeholder="Search for a post or user..." name="query" class="form-control mb-2">
+            <button type="submit" class="btn btn-outline-primary w-100"><i class="bi bi-search"></i> Search</button>
+        </form>
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="row explore-posts-grid row-cols-1 row-cols-md-3 g-4">
+        {% for post in posts %}
+        <div class="col">
+            <a href="{{ url_for('view_post', post_id=post.id) }}" class="post-link">
+
+                    <div class="card post-content profile-post-card">
+                        <h5 class="card-title explore-card-title">
+                            
+                            {% if post.image_url %}
+                            {{ post.content[:150] }}... 
+                            {% else %}
+                            {{ post.content }}
+                            {% endif %}
+                        </h5>
+                        {% if post.image_url %}
+                        <img src="{{ url_for('static', filename=post.image_url) }}" alt="Post Image"
+                            class="img-fluid mb-3 rounded">
+                        {% endif %}
+                    </div>
+
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

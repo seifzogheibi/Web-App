@@ -3,8 +3,8 @@ from flask import render_template, redirect, request, flash, url_for, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from CW2 import app, db
-from CW2.models import User, Post, Like, Comment, followers
+from app import app, db
+from app.models import User, Post, Like, Comment, followers
 import os
 
 

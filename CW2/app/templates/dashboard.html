@@ -12,13 +12,13 @@
             class="posts-form d-flex flex-column align-items-center mb-4">
 
             <!-- Textarea for posts -->
-            <label for="content" class="form-label hidden">Make a post or leave a caption...</label>
+            <label for="content" class="form-label hidden">Make a post and leave a caption...</label>
             <textarea id="content" name="content" class="form-control mb-2 create-post-input"
-                placeholder="What's on your mind?" rows="3" maxlength="500" required></textarea>
+                placeholder="Write your caption..." rows="3" maxlength="500" required></textarea>
 
             <!-- Image input -->
-            <label for="image" class="form-label hidden">Upload an image (optional)</label>
-            <input type="file" id="image" name="image" class="form-control mb-2 image-input" style="max-width: 600px;"
+            <label for="image" class="form-label hidden">Upload an image</label>
+            <input type="file" id="image" name="image" class="form-control mb-2 image-input"
                 accept="image/*" required />
 
             <button type="submit" class="btn btn-primary create-post-button">Create Post</button>
@@ -28,7 +28,7 @@
         <div class="search-container mb-4 text-center">
             <form method="GET" action="/search" class="d-inline-block search-form">
                 <label for="searchQuery" class="form-label hidden">Search for a user</label>
-                <input type="text" id="searchQuery" name="query" class="form-control mb-2" placeholder="Search for a user" required>
+                <input type="text" id="searchQuery" name="query" class="form-control mb-2" placeholder="Search for a user..." required>
                 <button type="submit" class="btn btn-outline-primary search-button"><i
                         class="bi bi-search"></i>Search</button>
             </form>
@@ -40,7 +40,6 @@
     <div class="dashboard-posts">
         {% for post in posts %}
         <div class="dashboard-posts-cards mb-4 p-3 shadow-sm">
-            
             <!-- Post Header -->
             <div class="post-header mb-2">
                 <span class="post-author"><a href="{{ url_for('profile', username=post.author.username) }}"

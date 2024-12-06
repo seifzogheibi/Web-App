@@ -48,10 +48,22 @@ html {
     margin-bottom: -1.5rem;
     font-weight: bolder !important;
 }
-/* {
-    margin-top: -14px;
-    margin-bottom: -1.5rem;
-    font-weight: bolder;
-    line-height: 1.2;
-    color: var(--bs-heading-color);
-} */
+
+@media (max-width: 767px) {
+    .edit-profile-container {
+        margin-left: 20px !important;
+    }
+
+    .edit-profile-container h5 {
+        font-size: .6em !important;
+        margin-right: 50px;
+    }
+}
+
+@media (min-width: 768px) {
+.col-md-8 {
+    /* flex: 0 0 auto; */
+    width: 66.66666667%;
+    margin-left: 135px;
+}
+}

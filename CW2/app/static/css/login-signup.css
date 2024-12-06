@@ -19,18 +19,17 @@ html {
 
 /* LOGIN/SIGNUP PAGE */
 .authorization-container {
-    width: 100% !important;
+    width: 50% !important;
     margin-top: 10%;
     padding: 20px;
     background-color: rgba(74, 74, 74, 0.518);
     border-radius: 20px;
     text-align: center;
-    margin-left: 35px;
 }
 
 .title {
     color: rgb(219, 0, 197);
-    font-size: 12.5vw;
+    font-size: 6.5vw;
     font-weight: bold;
     font-family: "League Script", cursive;
     margin-bottom: 30px;
@@ -54,9 +53,9 @@ html {
     color: #bbb;
 }
 
-.authorization-form:focus {
+.form-box:focus {
     outline: none;
-    border-color: rgb(219, 0, 197);
+    border-color: rgb(219, 0, 197) !important;
 }
 
 .login-button {
@@ -103,15 +102,15 @@ html {
     display:none;
 }
 
-@media (min-width: 767px) {
+@media (max-width: 767px) {
     .authorization-container {
-        width: 40% !important;
-        margin-top: 10% !important;
+        width: 70% !important;
+        /* margin-top: 10% !important; */
         margin-left: 35px !important;
     }
 
     .title {
-        font-size: 4.5vw;
+        font-size: 12.5vw;
     }
 
 }

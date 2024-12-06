@@ -17,7 +17,8 @@
         </li>
         {% endfor %}
     </ul>
-    <p class="no-posts-message text-center ">You currently don't follow anyone.</p>
+    {% else %}
+        <p class="no-posts-message text-center ">You currently don't follow anyone.</p>
     {% endif %}
 </div>
 {% endblock %}

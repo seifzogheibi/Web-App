@@ -13,8 +13,6 @@ document.querySelectorAll('.delete-comment-button').forEach(button => {
 
             if (response.ok) {
                 commentElement.remove(); 
-                const error = await response.json();
-                alert(error.error || 'Failed to delete comment.');
             }
         } catch (error) {
             console.error('Error deleting comment:', error);

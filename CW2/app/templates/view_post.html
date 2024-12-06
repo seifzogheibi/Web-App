@@ -6,7 +6,6 @@
 <div class="content-container mt-5 d-flex justify-content-center">
     <div class="col-md-8">
         <!-- Post Section -->
-        <div class="card mb-4">
             <div class="card-body view-card">
                 <h5 class="card-title"><a href="{{ url_for('profile', username=post.author.username) }}"
                         class="text-black"><strong>@{{ post.author.username }}</strong></a></h5>
@@ -15,7 +14,7 @@
                 <img src="{{ url_for('static', filename=post.image_url) }}" alt="Post Image"
                     class="img-fluid mb-3 rounded">
                 {% endif %}
-                <p class="text-muted small">{{ post.timestamp.strftime('%Y-%m-%d') }}</p>
+                <p class="text-muted small">{{ post.timestamp.strftime('%I:%M %p / %d-%m-%Y') }}</p>
                 <div class="d-flex justify-content-start align-items-center big-actions">
                     <button type="button" class="btn btn-outline-danger like-button" data-post-id="{{ post.id }}">
                         <i class="bi {% if post.is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
@@ -23,17 +22,17 @@
                     </button>
                 </div>
             </div>
-        </div>
 
         <!-- Comments Section -->
-        <div class="p-3 rounded-3 mt-4 view-card">
+        <div class="p-3 rounded-3 mt-4 big-comment text-white">
             <h3 class="mb-3">Comments</h3>
             {% for comment in comments %}
-            <div class="big-comment d-flex justify-content-between align-items-center p-2 rounded-3 mb-2">
-                <div>
+            <div class="justify-content-between align-items-center p-2 rounded-3 mb-2">
                     <a href="{{ url_for('profile', username=comment.author.username) }}" class="text-white">
-                        <strong>@{{ comment.author.username }}</strong></a>: {{ comment.content }}
-                </div>
+                        <strong class="comment-author">@{{ comment.author.username }}:</strong></a> {{ comment.content }}
+                        <span class="comment-date">
+                            {{ comment.timestamp.strftime('%I:%M %p / %d-%m-%Y') }}
+                        </span>
                 {% if comment.author.id == current_user.id %}
                 <!-- Delete Button -->
                 <button type="button" class="btn btn-sm btn-outline-danger delete-comment-button"

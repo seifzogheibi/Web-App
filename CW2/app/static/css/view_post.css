@@ -22,14 +22,22 @@ textarea.form-control {
 }
 
 .view-card {
-    background-color: rgba(255, 255, 255, 0.642) !important;
-    border: 2px solid rgb(219, 0, 197) !important;
-    width: 100% !important;
+    background-color: rgba(143, 142, 142, 0.642) !important;
+    border: 1px solid rgb(219, 0, 197) !important;
+    border-radius: 8px;
+    padding: 20px !important;
+    height: auto;
+}
+
+img.img-fluid {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .big-comment {
-    background-color: rgba(0, 0, 0, 0.623) !important;
-    color: white;
+    background-color: rgb(88, 88, 88) !important;
 }
 
 .big-comment-form{
@@ -48,4 +56,27 @@ textarea.form-control {
 .big-actions {
     display: flex;
     gap: 20px;
+}
+
+.comment-author {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .view-card {
+        padding: 17px !important;
+        border-radius: 8px;
+        height: 32%;
+        margin-left: 16px;
+        overflow: auto;
+        margin-top: 15px;
+    }
+
+    .big-comment {
+        margin-left: 25px;
+    }
+
+    .add-comment-form {
+        margin-left: 20px;
+    }
 }

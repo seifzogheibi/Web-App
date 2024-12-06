@@ -7,30 +7,32 @@
     <h1 class="page-header text-center"><strong>Welcome, @{{ user.username }}</strong></h1>
 
     <!-- Create post section -->
-    <form method="POST" action="{{ url_for('create_post') }}" enctype="multipart/form-data"
-        class="posts-form d-flex flex-column align-items-center mb-4">
+    <div class="dash-forms">
+        <form method="POST" action="{{ url_for('create_post') }}" enctype="multipart/form-data"
+            class="posts-form d-flex flex-column align-items-center mb-4">
 
-        <!-- Textarea for posts -->
-        <label for="content" class="form-label hidden">Make a post or leave a caption...</label>
-        <textarea id="content" name="content" class="form-control mb-2 create-post-input"
-            placeholder="What's on your mind?" rows="3" maxlength="500" required></textarea>
+            <!-- Textarea for posts -->
+            <label for="content" class="form-label hidden">Make a post or leave a caption...</label>
+            <textarea id="content" name="content" class="form-control mb-2 create-post-input"
+                placeholder="What's on your mind?" rows="3" maxlength="500" required></textarea>
 
-        <!-- Image input -->
-        <label for="image" class="form-label hidden">Upload an image (optional)</label>
-        <input type="file" id="image" name="image" class="form-control mb-2 image-input" style="max-width: 600px;"
-            accept="image/*" />
+            <!-- Image input -->
+            <label for="image" class="form-label hidden">Upload an image (optional)</label>
+            <input type="file" id="image" name="image" class="form-control mb-2 image-input" style="max-width: 600px;"
+                accept="image/*" required />
 
-        <button type="submit" class="btn btn-primary create-post-button">Create Post</button>
-    </form>
-
-    <!-- search -->
-    <div class="search-container mb-4 text-center">
-        <form method="GET" action="/search" class="d-inline-block search-form">
-            <label for="searchQuery" class="form-label hidden">Search for a user</label>
-            <input type="text" id="searchQuery" name="query" class="form-control mb-2" placeholder="Search for a user">
-            <button type="submit" class="btn btn-outline-primary search-button"><i
-                    class="bi bi-search"></i>Search</button>
+            <button type="submit" class="btn btn-primary create-post-button">Create Post</button>
         </form>
+
+        <!-- search -->
+        <div class="search-container mb-4 text-center">
+            <form method="GET" action="/search" class="d-inline-block search-form">
+                <label for="searchQuery" class="form-label hidden">Search for a user</label>
+                <input type="text" id="searchQuery" name="query" class="form-control mb-2" placeholder="Search for a user" required>
+                <button type="submit" class="btn btn-outline-primary search-button"><i
+                        class="bi bi-search"></i>Search</button>
+            </form>
+        </div>
     </div>
 
     {% if posts %}
@@ -38,11 +40,12 @@
     <div class="dashboard-posts">
         {% for post in posts %}
         <div class="dashboard-posts-cards mb-4 p-3 shadow-sm">
+            
             <!-- Post Header -->
             <div class="post-header mb-2">
                 <span class="post-author"><a href="{{ url_for('profile', username=post.author.username) }}"
                         class="text-black"><strong>@{{ post.author.username }}</strong></a></span>
-                <span class="post-date text-muted"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
+                <span class="post-date text-muted"> • {{ post.timestamp.strftime('%I:%M %p / %d-%m-%Y') }}</span>
             </div>
 
             <!-- Post Content -->
@@ -80,8 +83,11 @@
                             <span class="comment-author"> <a
                                     href="{{ url_for('profile', username=comment.author.username) }}"
                                     class="text-white">
-                                    <strong>@{{ comment.author.username }}</strong></a></span>
+                                    <strong>@{{ comment.author.username }}:</strong></a></span>
                             <span class="comment-content">{{ comment.content }}</span>
+                            <span class="comment-date">
+                                {{ comment.timestamp.strftime('%I:%M %p / %d-%m-%Y') }}
+                            </span>
                         </div>{% if comment.author.id == current_user.id %}
                         <!-- Delete Button -->
                         <button type="button" class="btn btn-sm btn-outline-danger delete-comment-button"

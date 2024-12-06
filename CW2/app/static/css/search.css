@@ -48,3 +48,17 @@ html {
 .list-group-item a:hover {
     color: #9400D3; /* Neon purple */
 }
+
+@media (max-width: 767px) {
+    .search-results-container h1 {
+        font-size: 1.5em;
+        margin-top: 31px;
+    }
+}
+
+@media (min-width: 768px) {
+    .search-results-container{
+        max-width: 50% !important;
+        margin-left: 30% !important;
+    }
+}

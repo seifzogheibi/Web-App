@@ -11,13 +11,6 @@ body {
     padding: 0;
 }
 
-.content-container {
-    width: 80%;
-    padding: 20px;
-    position: relative;
-    margin-left: 11% !important;
-}
-
 .page-header {
     font-size: 3.3em !important;
     color: rgb(219, 0, 197);
@@ -26,6 +19,10 @@ body {
     font-family: "League Script", cursive;
     font-weight: bold;
     margin-bottom: 5px !important;
+}
+
+.dash-forms {
+    padding-bottom: 70px !important;
 }
 
 .form-control {
@@ -41,14 +38,6 @@ body {
 .form-control:focus{
 outline: none;
 border-color: rgb(219, 0, 197) !important;
-}
-
-.content-container h1 {
-    padding-bottom: 5%;
-}
-
-.post-author a {
-    text-decoration: none;
 }
 
 /* Create Post */
@@ -106,7 +95,6 @@ border-color: rgb(219, 0, 197) !important;
 .dashboard-posts {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     width: 100%;
     margin: 0 auto;
 }
@@ -150,10 +138,6 @@ border-color: rgb(219, 0, 197) !important;
     font-size: 0.3rem;
 }
 
-.post-actions-dash button:last-child {
-    margin-bottom: 0;
-}
-
 /* Comments Section */
 .comments-container {
     margin-top: 15px;
@@ -180,9 +164,11 @@ border-color: rgb(219, 0, 197) !important;
     border-radius: 5px;
 }
 
-.comment-author a {
-    text-decoration: none;
+.comment-date {
+    font-size: 0.85rem; /* Smaller text */
+    color: #ededed !important; /* Slightly lighter gray */
 }
+
 
 .add-comment-form {
     margin-top: 10px;
@@ -240,15 +226,6 @@ border-color: rgb(219, 0, 197) !important;
     color: rgb(219, 0, 197);
 }
 
-
-@media (min-width: 768px) {
-    body {
-        padding: 20px !important;
-        margin-left: 10% !important;
-    }
-}
-
-
 @media (max-width: 767px) {
     body {
         padding: 0px;
@@ -264,8 +241,12 @@ border-color: rgb(219, 0, 197) !important;
         padding: 15px !important;
     }
 
-    .post-actions-dash button {
-        width: 38%;
+    .dash-forms {
+        margin-left: 43px;
+    }
+
+    .dashboard-posts {
+        margin-left: 20px;
     }
 
     .add-comment-form button {
@@ -275,6 +256,7 @@ border-color: rgb(219, 0, 197) !important;
     .page-header {
         font-size: 2.5em;
         margin-top: 15px;
+        margin-left: 60px;
     }
 }
 

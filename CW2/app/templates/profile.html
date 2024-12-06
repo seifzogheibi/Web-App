@@ -45,36 +45,33 @@
 
     <!-- Posts Section -->
     {% if posts %}
-    <div class="container-fluid">
-        <div class="row d-flex p-2 bd-highlight h-100">
-            {% for post in posts %}
-            <div class="test col-md-4 mh-50">
-                <!-- Post Content -->
-                <a href="{{ url_for('view_post', post_id=post.id) }}" class="post-link">
-
-                    <div class="card post-content profile-post-card">
-                        <div class="card-header ">
-                            <span class="text-dark post-author">@{{ post.author.username }}</span>
-                            <span class="text-dark post-time"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
-                        </div>
-                        <div class="card-body">
-                            {{ post.content }}
-                            {% if post.image_url %}
-                            <img src="{{ url_for('static', filename=post.image_url) }}" alt="Post Image"
-                                class="img-fluid mb-3 rounded">
-                            {% endif %}
-
-                        </div>
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 align-items-stretch"> <!-- Ensures consistent card alignment -->
+        {% for post in posts %}
+        <div class="col">
+            <a href="{{ url_for('view_post', post_id=post.id) }}" class="post-link text-decoration-none text-dark">
+                <div class="card h-100" style="height: 450px;"> <!-- Adjusted card height -->
+                    <div class="card-header">
+                        <span class="text-dark post-author">@{{ post.author.username }}</span>
+                        <span class="text-dark post-time"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
                     </div>
-                </a>
-            </div>
-            {% endfor %}
+                    <div class="card-body">
+                        <p>{{ post.content }}</p>
+                    </div>
+                    {% if post.image_url %}
+                    <img src="{{ url_for('static', filename=post.image_url) }}" alt="Post Image"
+                        class="card-img-top img-fluid w-100" style="height: 250px; object-fit: cover;"> <!-- Adjusted image height -->
+                    {% endif %}
+                </div>
+            </a>
         </div>
+        {% endfor %}
     </div>
-    {% else %}
-    <div class="no-posts-message">
-        <p>@{{ user.username }} has no posts.</p>
-    </div>
-    {% endif %}
+</div>
+{% else %}
+<div class="no-posts-message">
+    <p>@{{ user.username }} has no posts.</p>
+</div>
+{% endif %}
 </div>
 {% endblock %}

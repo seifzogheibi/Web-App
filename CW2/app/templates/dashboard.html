@@ -14,7 +14,7 @@
             <!-- Textarea for posts -->
             <label for="content" class="form-label hidden">Make a post and leave a caption...</label>
             <textarea id="content" name="content" class="form-control mb-2 create-post-input"
-                placeholder="Write your caption..." rows="3" maxlength="500" required></textarea>
+                placeholder="Write a caption..." rows="3" maxlength="500" required></textarea>
 
             <!-- Image input -->
             <label for="image" class="form-label hidden">Upload an image</label>
@@ -51,7 +51,7 @@
             <div class="dashboard-post-content">
                 <p>{{ post.content }}</p>
                 {% if post.image_url %}
-                <img src="{{ url_for('static', filename=post.image_url) }}" alt="Post Image"
+                <img src="{{ url_for('static', filename=post.image_url) }}" alt="{{ post.author.username }}'s Post"
                     class="img-fluid mb-3 rounded image">
                 {% endif %}
             </div>

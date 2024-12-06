@@ -11,7 +11,7 @@
                         class="text-black"><strong>@{{ post.author.username }}</strong></a></h5>
                 <p class="card-text">{{ post.content }}</p>
                 {% if post.image_url %}
-                <img src="{{ url_for('static', filename=post.image_url) }}" alt="Post Image"
+                <img src="{{ url_for('static', filename=post.image_url) }}" alt="{{ post.author.username }}'s Post"
                     class="img-fluid mb-3 rounded">
                 {% endif %}
                 <p class="text-muted small">{{ post.timestamp.strftime('%I:%M %p / %d-%m-%Y') }}</p>
@@ -42,7 +42,7 @@
                 {% endif %}
             </div>
             {% else %}
-            <p class="text-muted">No comments yet. Be the first to comment!</p>
+            <p class="text-muted text-white">No comments yet. Be the first to comment!</p>
             {% endfor %}
         </div>
 

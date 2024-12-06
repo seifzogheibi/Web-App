@@ -59,7 +59,7 @@
                         <p>{{ post.content }}</p>
                     </div>
                     {% if post.image_url %}
-                    <img src="{{ url_for('static', filename=post.image_url) }}" alt="Post Image"
+                    <img src="{{ url_for('static', filename=post.image_url) }}" alt="{{ post.author.username }}'s Post"
                         class="card-img-top img-fluid w-100" style="height: 250px; object-fit: cover;"> <!-- Adjusted image height -->
                     {% endif %}
                 </div>

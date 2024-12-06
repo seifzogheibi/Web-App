@@ -1,12 +1,12 @@
 // Toggle Comments Section
 document.addEventListener("click", function (event) {
-    const button = event.target.closest(".toggle-comments-button"); // Ensure correct button is targeted
+    const button = event.target.closest(".toggle-comments-button");
 
     if (button) {
         const commentsContainer = button.closest(".dashboard-posts-cards").querySelector(".comments-container");
 
         if (commentsContainer) {
-            commentsContainer.classList.toggle("hidden"); // Toggle visibility
+            commentsContainer.classList.toggle("hidden");
 
             const commentsCount = commentsContainer.querySelectorAll(".comment").length;
 

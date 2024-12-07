@@ -1,3 +1,4 @@
+/* Dashboard */
 body {
     background: linear-gradient(to bottom, #000000, #000000);
     color: white;
@@ -9,6 +10,10 @@ body {
     background-attachment: fixed;
     margin: 0;
     padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 .page-header {
@@ -91,7 +96,7 @@ border-color: rgb(219, 0, 197) !important;
     background: none !important;
 }
 
-/* Dashboard Post Styles */
+/* Posts Display */
 .dashboard-posts {
     display: flex;
     flex-direction: column;
@@ -226,6 +231,8 @@ border-color: rgb(219, 0, 197) !important;
     color: rgb(219, 0, 197);
 }
 
+
+/* Media query for smaller screens */
 @media (max-width: 767px) {
     body {
         padding: 0px;
@@ -258,22 +265,4 @@ border-color: rgb(219, 0, 197) !important;
         margin-top: 15px;
         margin-left: 60px;
     }
-}
-
-@media (max-width: 1000px) {
-    .row>* {
-        width: 100% ;
-        max-width: 100%;
-        padding-right: calc(var(--bs-gutter-x)* .5);
-        padding-left: calc(var(--bs-gutter-x)* .5);
-        margin-top: var(--bs-gutter-y);
-    }
-
-    .col-md-4 {
-        width: 100% !important;
-    }
-}
-
-.hidden {
-    display: none;
 }

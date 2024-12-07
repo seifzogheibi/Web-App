@@ -1,3 +1,4 @@
+/* Profile */
 body {
     background: linear-gradient(to bottom, #000000, #000000);
     color: white;
@@ -127,8 +128,8 @@ html {
 .post-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensures content is distributed evenly */
-    height: 100%; /* Makes sure all cards take the same height */
+    justify-content: space-between;
+    height: 100%;
     padding: 15px;
 }
 
@@ -164,6 +165,15 @@ html {
     font-weight: bold;
     padding: 50px;
     background-color: rgba(0, 0, 0, 0.223);
+}
+
+.mno {
+    object-fit: cover;
+}
+
+.pqr {
+    height: 250px;
+    object-fit: cover;
 }
 
 @media (max-width: 767px) {

@@ -1,3 +1,7 @@
+"""
+    Views
+    """
+import os
 import random
 from flask import render_template, redirect, request, flash, url_for, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
@@ -5,7 +9,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from app import app, db
 from app.models import User, Post, Like, Comment, followers
-import os
 
 
 @app.route('/')
@@ -16,6 +19,7 @@ def home():
 # creating the authentication system
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None  # Initialize an error variable
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -24,11 +28,12 @@ def login():
             login_user(user)
             flash('Logged in successfully.')
             return redirect(url_for('dashboard'))
-        else:
-            flash('Invalid credentials.')
-    return render_template('login.html')
+        error = "Password and email do not match."  # Set the error message
+
+    return render_template('login.html', error=error)
 
 
+# signup page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -56,6 +61,7 @@ def signup():
     return render_template('signup.html')
 
 
+# logout button
 @app.route('/logout')
 # adding this to all other routes to ensure the user is logged in
 @login_required
@@ -65,6 +71,7 @@ def logout():
     return redirect(url_for('login'))
 
 
+# home page
 @app.route('/dashboard')
 @login_required
 def dashboard():
@@ -88,11 +95,11 @@ def dashboard():
 # setting specific file extensions to only allow images to be uploaded
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+# create a post
 @app.route('/create_post', methods=['POST'])
 @login_required
 def create_post():
@@ -126,6 +133,7 @@ def create_post():
     return redirect(url_for('dashboard'))
 
 
+# profile page
 @app.route('/profile/<username>')
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
@@ -145,9 +153,11 @@ def profile(username):
 
     is_current_user = user.id == current_user.id
 
-    return render_template('profile.html', user=user, followers=followers_count, following=following_count, posts=posts, is_current_user=is_current_user)
+    return render_template('profile.html', user=user, followers=followers_count,
+                           following=following_count, posts=posts, is_current_user=is_current_user)
 
 
+# like a post
 @app.route('/like/<int:post_id>', methods=['POST'])
 @login_required
 def like(post_id):
@@ -160,13 +170,13 @@ def like(post_id):
         db.session.commit()
         # dynmically return like count
         return jsonify({"status": "unliked", "like_count": post.likes.count(), "post_id": post_id})
-    else:
-        new_like = Like(user_id=current_user.id, post_id=post_id)
-        db.session.add(new_like)
-        db.session.commit()
-        return jsonify({"status": "liked", "like_count": post.likes.count(), "post_id": post_id})
+    new_like = Like(user_id=current_user.id, post_id=post_id)
+    db.session.add(new_like)
+    db.session.commit()
+    return jsonify({"status": "liked", "like_count": post.likes.count(), "post_id": post_id})
 
 
+# comment button
 @app.route('/comment/<int:post_id>', methods=['POST'])
 @login_required
 def comment(post_id):
@@ -178,8 +188,6 @@ def comment(post_id):
 
     # making sure blank comments cant be posted
     if not content or not content.strip():
-        app.logger.error(
-            f"Failed to add comment: Empty content for post ID {post_id}")
         flash("Comment cannot be empty.")
         return redirect(request.referrer or url_for('dashboard'))
 
@@ -187,11 +195,11 @@ def comment(post_id):
                           user_id=current_user.id, post_id=post_id)
     db.session.add(new_comment)
     db.session.commit()
-    app.logger.info(f"New comment added by {current_user.username} for post ID {post_id}")
     flash("Comment added successfully.")
     return redirect(request.referrer or url_for('dashboard'))
 
 
+# search for a user
 @app.route('/search', methods=['GET'])
 @login_required
 def search():
@@ -205,6 +213,7 @@ def search():
     return render_template('search.html', query=query, results=results)
 
 
+# users
 @app.route('/user/<int:user_id>')
 @login_required
 def view_profile(user_id):
@@ -217,9 +226,11 @@ def view_profile(user_id):
 
     print(followers_count)
     print(following_count)
-    return render_template('profile.html', user=user, posts=user_posts, followers=followers_count, following=following_count)
+    return render_template('profile.html', user=user, posts=user_posts,
+                           followers=followers_count, following=following_count)
 
 
+# follow button
 @app.route('/follow_toggle/<int:user_id>', methods=['POST'])
 @login_required
 def follow_toggle(user_id):
@@ -238,6 +249,7 @@ def follow_toggle(user_id):
     return redirect(url_for('profile', username=user.username))
 
 
+# delete a post
 @app.route('/delete_post/<int:post_id>', methods=['POST'])
 @login_required
 def delete_post(post_id):
@@ -257,17 +269,19 @@ def delete_post(post_id):
     return jsonify({"status": "success", "post_id": post_id}), 200
 
 
+# delete a comment
 @app.route('/delete_comment/<int:comment_id>', methods=['DELETE'])
 @login_required
 def delete_comment(comment_id):
-    comment = Comment.query.get_or_404(comment_id)
-    if comment.author != current_user:
+    coment = Comment.query.get_or_404(comment_id)
+    if coment.author != current_user:
         return jsonify({'error': 'Unauthorized'}), 403
-    db.session.delete(comment)
+    db.session.delete(coment)
     db.session.commit()
     return jsonify({'message': 'Comment deleted successfully'}), 200
 
 
+# edit profile
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -299,7 +313,7 @@ def edit_profile():
     return render_template('edit_profile.html', user=current_user)
 
 
-# route to display the post on a full page
+# display the post on a full page
 @app.route('/post/<int:post_id>')
 def view_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -312,6 +326,7 @@ def view_post(post_id):
     return render_template('view_post.html', post=post, comments=comments)
 
 
+# explore page
 @app.route('/explore')
 @login_required
 def explore():
@@ -322,7 +337,7 @@ def explore():
     return render_template('explore.html', posts=posts)
 
 
-# routes for viewing followers and following only accessed from the users profile
+# viewing followers and following only accessed from the users profile
 @app.route('/followers/<username>')
 @login_required
 def followers_page(username):

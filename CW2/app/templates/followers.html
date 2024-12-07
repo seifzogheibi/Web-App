@@ -6,19 +6,21 @@
 <div class="content-container">
     <h1 class="page-header text-center p-3"><strong>Your Followers</strong></h1>
 
+
+    <!-- Display followers in a list -->
     {% if followers %}
+    {% for follower in followers %}
     <ul class="list-group">
-        {% for follower in followers %}
         <li class="list-group-item">
             <a href="{{ url_for('profile', username=follower.username) }}"
                 class="list-group list-group-item bg-secondary text-white rounded-3 mb-2">
                 @{{ follower.username }}
             </a>
         </li>
-        {% endfor %}
     </ul>
+    {% endfor %}
     {% else %}
-        <p class="no-posts-message text-center">You currently have no followers.</p>
+    <p class="no-posts-message text-center">You currently have no followers.</p>
     {% endif %}
 </div>
 {% endblock %}

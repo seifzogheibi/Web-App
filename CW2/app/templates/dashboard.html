@@ -6,12 +6,12 @@
 <div class="content-container">
     <h1 class="page-header text-center"><strong>Welcome, @{{ user.username }}</strong></h1>
 
-    <!-- Create post section -->
+    <!-- Create a post -->
     <div class="dash-forms">
         <form method="POST" action="{{ url_for('create_post') }}" enctype="multipart/form-data"
             class="posts-form d-flex flex-column align-items-center mb-4">
 
-            <!-- Textarea for posts -->
+            <!-- Post caption -->
             <label for="content" class="form-label hidden">Make a post and leave a caption...</label>
             <textarea id="content" name="content" class="form-control mb-2 create-post-input"
                 placeholder="Write a caption..." rows="3" maxlength="500" required></textarea>
@@ -19,12 +19,12 @@
             <!-- Image input -->
             <label for="image" class="form-label hidden">Upload an image</label>
             <input type="file" id="image" name="image" class="form-control mb-2 image-input"
-                accept="image/*" required />
+                accept="image/*" required>
 
             <button type="submit" class="btn btn-primary create-post-button">Create Post</button>
         </form>
 
-        <!-- search -->
+        <!-- Search -->
         <div class="search-container mb-4 text-center">
             <form method="GET" action="/search" class="d-inline-block search-form">
                 <label for="searchQuery" class="form-label hidden">Search for a user</label>
@@ -36,18 +36,16 @@
     </div>
 
     {% if posts %}
-    <!-- Posts Section -->
+    <!-- Posts display -->
     <div class="dashboard-posts">
         {% for post in posts %}
         <div class="dashboard-posts-cards mb-4 p-3 shadow-sm">
-            <!-- Post Header -->
             <div class="post-header mb-2">
                 <span class="post-author"><a href="{{ url_for('profile', username=post.author.username) }}"
                         class="text-black"><strong>@{{ post.author.username }}</strong></a></span>
                 <span class="post-date text-muted"> • {{ post.timestamp.strftime('%I:%M %p / %d-%m-%Y') }}</span>
             </div>
 
-            <!-- Post Content -->
             <div class="dashboard-post-content">
                 <p>{{ post.content }}</p>
                 {% if post.image_url %}
@@ -56,7 +54,7 @@
                 {% endif %}
             </div>
 
-            <!-- Post Actions -->
+            <!-- Post actions -->
             <div class="dashboard-post-actions d-flex justify-content-between">
                 <button type="button" class="btn btn-outline-danger like-button" data-post-id="{{ post.id }}">
                     <i class="bi {% if post.is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
@@ -74,7 +72,6 @@
 
             <!-- Comments Section -->
             <div class="comments-container mt-3 hidden">
-                <!-- Display Comments -->
                 <div class="comment-section mb-3">
                     {% for comment in post.comments %}
                     <div class="comment">
@@ -88,7 +85,7 @@
                                 {{ comment.timestamp.strftime('%I:%M %p / %d-%m-%Y') }}
                             </span>
                         </div>{% if comment.author.id == current_user.id %}
-                        <!-- Delete Button -->
+                        <!-- Delete button -->
                         <button type="button" class="btn btn-sm btn-outline-danger delete-comment-button"
                             data-comment-id="{{ comment.id }}">
                             <i class="bi bi-trash"></i>
@@ -97,7 +94,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                <!-- Add Comment Form -->
+                <!-- Add comment -->
                 <div class="add-comment-form">
                     <form method="POST" action="{{ url_for('comment', post_id=post.id) }}"
                         enctype="multipart/form-data">
@@ -112,7 +109,6 @@
         {% endfor %}
     </div>
     {% else %}
-    <!-- No Posts Message -->
     <div class="no-posts-message text-center">
         <p>There are currently no posts to display. Make a post, follow people, or <a href="{{ url_for('explore') }}"
                 class="btn btn-link">explore.</a></p>

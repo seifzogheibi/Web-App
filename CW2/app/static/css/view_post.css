@@ -1,26 +1,4 @@
-body {
-    background: linear-gradient(to bottom, #000000, #000000);
-    color: white;
-    margin-left: auto;
-    padding: auto;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    /* background: linear-gradient(to bottom, #9a9898, #939393); */
-    background-attachment: fixed;
-}
-  
-html {
-    scroll-behavior: smooth;
-  }
-
-textarea.form-control {
-    border-radius: 5px;
-    resize: none;
-}
-
+/* View */
 .view-card {
     background-color: rgba(143, 142, 142, 0.642) !important;
     border: 1px solid rgb(219, 0, 197) !important;
@@ -62,6 +40,9 @@ img.img-fluid {
     text-decoration: underline;
 }
 
+.last {
+margin-right: 50%;
+}
 @media (max-width: 768px) {
     .view-card {
         padding: 17px !important;

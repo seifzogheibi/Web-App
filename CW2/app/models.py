@@ -1,15 +1,16 @@
-from app import db
+"""
+    Models
+    """
 from flask_login import UserMixin
-from datetime import datetime, timezone
+from app import db
 
-
+# many-to-many relation between users who can follow and be followed
 followers = db.Table('followers',
                      db.Column('follower_id', db.Integer, db.ForeignKey(
                          'user.id'), primary_key=True),
                      db.Column('followed_id', db.Integer,
                                db.ForeignKey('user.id'), primary_key=True)
                      )
-
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,7 +28,7 @@ class User(UserMixin, db.Model):
         lazy='dynamic'
     )
 
-
+# model that make up all the interactable features of the app
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)

@@ -1,3 +1,4 @@
+/* Login */
 body {
     background: linear-gradient(to bottom, #000000, #000000);
     /* background: linear-gradient(to bottom, #832323, #a05858); */
@@ -17,7 +18,6 @@ html {
     scroll-behavior: smooth;
 }
 
-/* LOGIN/SIGNUP PAGE */
 .authorization-container {
     width: 50% !important;
     margin-top: 10%;

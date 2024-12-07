@@ -1,3 +1,6 @@
+"""
+    __init__
+    """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -7,6 +10,7 @@ from flask_login import LoginManager
 app = Flask(__name__)
 
 app.config.from_object('config')
+# allow for images to be uploaded
 app.config['UPLOAD_FOLDER'] = '/workspaces/Web-App/CW2/app/static/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 

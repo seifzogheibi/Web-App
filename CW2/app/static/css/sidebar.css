@@ -1,3 +1,4 @@
+/* Sidebar */
 body {
     background: linear-gradient(to bottom, #000000, #000000);
     color: white;
@@ -13,7 +14,6 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Sidebar Styles */
 .sidebar-container {
     position: relative;
     width: 100%;
@@ -58,23 +58,18 @@ html {
     color: #fff;
 }
 
-/* Icon Styling */
+/* Icons */
 .sidebar .nav-link i {
     font-size: 20px;
     margin-right: 10px;
 }
 
-/* Logout Button Styling */
-.nav-link.text-danger {
-    margin-top: auto;
-}
-
-/* Hidden Sidebar (Mobile) */
+/* Hide Sidebar (mobile) */
 .sidebar.hidden {
     transform: translateX(-100%);
 }
 
-/* Sidebar Toggle Button */
+/* Sidebar Toggle */
 .toggle-sidebar-btn {
     position: fixed;
     top: 15px;

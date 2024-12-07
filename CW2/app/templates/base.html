@@ -24,7 +24,7 @@
  <button class="btn btn-primary d-md-none toggle-sidebar-btn" onclick="toggleSidebar()">☰</button>
 
 
-    <!-- Sidebar -->
+    <!-- SIDEBAR -->
     <div class="d-flex flex-column vh-100 sidebar">
         <a href="{{ url_for('dashboard') }}" class="sidebar-logo mb-3 text-center">
             <h2 class="sidebar-logo">SeifClub</h2>
@@ -59,6 +59,7 @@
     {% block content %}
 
     {% endblock %}
+    <!-- retrieving all javascript and bootstrap files to extend across the application -->
     <script src="{{ url_for('static', filename='js/like.js') }}"></script>
     <script src="{{ url_for('static', filename='js/password.js') }}"></script>
     <script src="{{ url_for('static', filename='js/toggle.js') }}"></script>

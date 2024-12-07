@@ -7,16 +7,16 @@
     <h1 class="page-header text-center p-3"><strong>Your Following</strong></h1>
 
     {% if following %}
+    {% for followed in following %}
     <ul class="list-group">
-        {% for followed in following %}
         <li class="list-group-item">
             <a href="{{ url_for('profile', username=followed.username) }}"
                 class="list-group list-group-item bg-secondary text-white rounded-3 mb-2">
                 @{{ followed.username }}
             </a>
         </li>
-        {% endfor %}
     </ul>
+    {% endfor %}
     {% else %}
         <p class="no-posts-message text-center ">You currently don't follow anyone.</p>
     {% endif %}

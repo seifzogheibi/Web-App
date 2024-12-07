@@ -1,3 +1,4 @@
+/* Search */
 body {
     background: linear-gradient(to bottom, #000000, #000000);
     color: white;
@@ -46,7 +47,7 @@ html {
 }
 
 .list-group-item a:hover {
-    color: #9400D3; /* Neon purple */
+    color: #9400D3;
 }
 
 @media (max-width: 767px) {

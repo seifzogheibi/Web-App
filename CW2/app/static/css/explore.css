@@ -1,8 +1,7 @@
-/* Explore Page Styles */
+/* Explore */
 .explore-page-container {
     padding-left: 10%;
     padding-right: 10%;
-    /* background-color: #f8f9fa; */
 }
 
 .explore-page-header {
@@ -14,8 +13,6 @@
 .explore-search-container {
     display: flex;
     justify-content: center;
-    /* margin-top: 20px; */
-    /* margin-bottom: 20px; */
 }
 
 .explore-search-container input {
@@ -26,6 +23,26 @@
 .explore-search-container button {
     max-width: 600px;
     width: 100%;
+}
+
+.abc {
+    max-width: 600px;
+    width: 100%;
+}
+
+.def {
+    height: 500px;
+    max-width: 350px;
+    margin: auto;
+}
+
+.ghi {
+    overflow: hidden;
+    height: 300px;
+}
+
+.jkl {
+    object-fit: cover;
 }
 
 /* Grid layout for explore posts with space between cards */

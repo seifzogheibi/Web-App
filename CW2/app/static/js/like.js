@@ -1,4 +1,4 @@
-// Like Button
+// like button
 document.addEventListener("click", function (event) {
     const button = event.target.closest(".like-button");
     if (button) {
@@ -9,6 +9,7 @@ document.addEventListener("click", function (event) {
             return;
         }
 
+        // POST request to server, updating when like/unlke
         fetch(`/like/${postId}`, {
             method: "POST",
             headers: {
@@ -21,6 +22,7 @@ document.addEventListener("click", function (event) {
                 }
                 return response.json();
             })
+            // dynamically update like count when clicked
             .then((data) => {
                 const icon = button.querySelector("i");
                 if (data.status === "liked") {

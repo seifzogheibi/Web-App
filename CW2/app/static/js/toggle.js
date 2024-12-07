@@ -1,4 +1,4 @@
-// Toggle Comments Section
+// Toggle Comments
 document.addEventListener("click", function (event) {
     const button = event.target.closest(".toggle-comments-button");
 

@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="content-container">
-    <!-- Profile Header -->
+    <!-- Profile box -->
     <div class="profile-container">
         <h2>@{{ user.username }}</h2>
         {% if user.bio %}
@@ -14,19 +14,17 @@
         {% endif %}
         <div class="followers-following">
             {% if user.id == current_user.id %}
-            <!-- Only display clickable links for the profile owner -->
             <span><a href="{{ url_for('followers_page', username=user.username) }}"><strong>{{ followers }}</strong>
                     Followers</a></span>
             <span><a href="{{ url_for('following_page', username=user.username) }}"><strong>{{ following }}</strong>
                     Following</a></span>
             {% else %}
-            <!-- Display counts without links for others -->
             <span><strong>{{ followers }}</strong> Followers</span>
             <span><strong>{{ following }}</strong> Following</span>
             {% endif %}
         </div>
 
-        <!-- Follow/Unfollow Button -->
+        <!-- Follow/unfollow button -->
         {% if user.id != current_user.id %}
         <form method="POST" action="{{ url_for('follow_toggle', user_id=user.id) }}">
             {% if user in current_user.following %}
@@ -37,20 +35,20 @@
         </form>
         {% endif %}
 
-        <!-- Edit Profile Button -->
+        <!-- Edit profile button -->
         {% if user.id == current_user.id %}
         <a href="{{ url_for('edit_profile') }}" class="btn btn-primary edit-profile-button">Edit Profile</a>
         {% endif %}
     </div>
 
-    <!-- Posts Section -->
+    <!-- Posts -->
     {% if posts %}
 <div class="container-fluid">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 align-items-stretch"> <!-- Ensures consistent card alignment -->
         {% for post in posts %}
         <div class="col">
             <a href="{{ url_for('view_post', post_id=post.id) }}" class="post-link text-decoration-none text-dark">
-                <div class="card h-100" style="height: 450px;"> <!-- Adjusted card height -->
+                <div class="card h-100 mno">
                     <div class="card-header">
                         <span class="text-dark post-author">@{{ post.author.username }}</span>
                         <span class="text-dark post-time"> • {{ post.timestamp.strftime('%Y-%m-%d') }}</span>
@@ -60,7 +58,7 @@
                     </div>
                     {% if post.image_url %}
                     <img src="{{ url_for('static', filename=post.image_url) }}" alt="{{ post.author.username }}'s Post"
-                        class="card-img-top img-fluid w-100" style="height: 250px; object-fit: cover;"> <!-- Adjusted image height -->
+                        class="card-img-top img-fluid w-100 pqr">
                     {% endif %}
                 </div>
             </a>

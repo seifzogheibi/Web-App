@@ -1,6 +1,6 @@
+/* Edit Profile */
 body {
     background: linear-gradient(to bottom, #000000, #000000);
-    /* background: linear-gradient(to bottom, #832323, #a05858); */
     color: white;
     margin-left: auto;
     padding: auto;
@@ -9,7 +9,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100%;
-    /* background: linear-gradient(to bottom, #9a9898, #939393); */
     background-attachment: fixed;
 }
   
@@ -52,6 +51,7 @@ html {
 @media (max-width: 767px) {
     .edit-profile-container {
         margin-left: 20px !important;
+        padding: 20px;
     }
 
     .edit-profile-container h5 {
